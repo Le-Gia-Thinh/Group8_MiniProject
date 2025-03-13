@@ -5,8 +5,12 @@
  */
 package controllers;
 
+import db.Product;
+import db.ProductFacade;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.sql.SQLException;
+import java.util.List;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -32,7 +36,38 @@ public class HomeController extends HttpServlet {
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        
+        String action = (String)request.getAttribute("action");
+        switch (action) {
+            case "index":
+                //hiện danh sach toy
+                index(request, response);
+                break;
+        }
+    }
+    
+    protected void index(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
+        try {
+            int page_size = 6;
+            //Lấy số trang
+            String spage = request.getParameter("page");
+            int page = spage==null?1:Integer.parseInt(spage);
+            request.setAttribute("page", page);
+            //Đọc table Toy
+            ProductFacade pf = new ProductFacade();
+            int row_count = pf.count();
+            List<Product> list = pf.select(page);
+            //Tính total_pages
+            int total_page = (int)Math.ceil(row_count/page_size);
+            request.setAttribute("total_page", total_page);
+            //Lưu list vào request
+            request.setAttribute("list", list);
+            //Cho hiện view /toy.jsp
+            request.getRequestDispatcher(Config.LAYOUT).forward(request, response);
+        } catch (SQLException ex) {
+            //in chi tiết exception
+            ex.printStackTrace();
+        }
     }
 
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
