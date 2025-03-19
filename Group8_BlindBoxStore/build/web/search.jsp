@@ -135,7 +135,8 @@
                     for (ProductDTO product : products) { %>
                 <div class="col-md-3 mb-4">
                     <div class="card h-100">
-                        <img src="<%= product.getImageUrl() %>" class="card-img-top" alt="<%= product.getProductName()%>" style="height: 200px; object-fit: cover;">
+                        <img src="<%= product.getImageUrl() %>" class="card-img-top" alt="<%= product.getProductName()%>" style="height: 200px; object-fit: cover;"> 
+     
                         <div class="card-body">
                             <h5 class="card-title"><%= product.getProductName()%></h5>
                             <p class="card-text text-muted">By <%= product.getSeries()%></p>
