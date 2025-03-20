@@ -36,6 +36,8 @@
                         </div>
                         <div class="card-footer text-center">
                             <a href="MainController?btAction=Search" class="btn btn-link">Continue as Guest</a>
+                            <a href="https://accounts.google.com/o/oauth2/auth?scope=profile&redirect_uri=http://localhost:8080/Group8_BlindBoxStore/LoginGoogleHandler&response_type=code
+		   &client_id=909740785037-q5g15o1mrs61fei85u4jvrvkqc7vao92.apps.googleusercontent.com&approval_prompt=force">Login With Google</a>
                         </div>
                     </div>
                 </div>

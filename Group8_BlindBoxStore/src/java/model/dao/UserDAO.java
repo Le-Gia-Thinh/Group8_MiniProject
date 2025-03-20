@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import model.dto.UserDTO;
+import model.dto.UserGoogleDTO;
 import model.utils.DBUtils;
 
 public class UserDAO {
@@ -71,4 +72,65 @@ public class UserDAO {
         
         return check;
     }
+    public UserGoogleDTO checkGoogleLogin(String googleId) throws SQLException, ClassNotFoundException {
+        UserGoogleDTO googleUser = null;
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            String sql = "SELECT id, email, name, given_name, family_name, picture, verified_email "
+                       + "FROM UsersGoogle "
+                       + "WHERE id = ?";
+            stm = conn.prepareStatement(sql);
+            stm.setString(1, googleId);
+            rs = stm.executeQuery();
+
+            if (rs.next()) {
+                String email = rs.getString("email");
+                String name = rs.getString("name");
+                String givenName = rs.getString("given_name");
+                String familyName = rs.getString("family_name");
+                String picture = rs.getString("picture");
+                boolean verifiedEmail = rs.getBoolean("verified_email");
+
+                googleUser = new UserGoogleDTO(googleId, email, verifiedEmail, name, givenName, familyName, picture);
+            }
+        } finally {
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (conn != null) DBUtils.closeConnection(conn);
+        }
+
+        return googleUser;
+    }
+
+    public boolean createGoogleUser(UserGoogleDTO googleUser) throws SQLException, ClassNotFoundException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement stm = null;
+
+        try {
+            conn = DBUtils.getConnection();
+            String sql = "INSERT INTO UsersGoogle(id, email, verified_email, name, given_name, family_name, picture) "
+                       + "VALUES(?, ?, ?, ?, ?, ?, ?)";
+            stm = conn.prepareStatement(sql);
+            stm.setString(1, googleUser.getId());
+            stm.setString(2, googleUser.getEmail());
+            stm.setBoolean(3, googleUser.isVerified_email());
+            stm.setString(4, googleUser.getName());
+            stm.setString(5, googleUser.getGiven_name());
+            stm.setString(6, googleUser.getFamily_name());
+            stm.setString(7, googleUser.getPicture());
+
+            check = stm.executeUpdate() > 0;
+        } finally {
+            if (stm != null) stm.close();
+            if (conn != null) DBUtils.closeConnection(conn);
+        }
+
+        return check;
+    }
+
 }

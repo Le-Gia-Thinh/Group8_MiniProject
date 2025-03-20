@@ -11,8 +11,10 @@ import javax.servlet.http.*;
 import model.dao.*;
 
 import model.dto.*;
-
+import model.utils.*;
 import model.utils.Constants;
+import static model.utils.LoginGoogleHandler.getToken;
+import static model.utils.LoginGoogleHandler.getUserInfo;
 
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
 @MultipartConfig(
@@ -69,9 +71,14 @@ public class MainController extends HttpServlet {
         }
     }
     
-    private String processLogin(HttpServletRequest request) throws Exception {
-        String url = Constants.LOGIN_PAGE;
-        
+  private String processLogin(HttpServletRequest request) throws Exception {
+    String url = Constants.LOGIN_PAGE;
+    
+    // Kiểm tra xem có mã code từ Google không
+    String googleCode = request.getParameter("code");
+    if (googleCode != null && !googleCode.isEmpty()) {
+        url = processGoogleLogin(request, googleCode);
+    } else {
         String userID = request.getParameter("userID");
         String password = request.getParameter("password");
         
@@ -81,15 +88,30 @@ public class MainController extends HttpServlet {
         if (user != null) {
             HttpSession session = request.getSession();
             session.setAttribute("USER", user);
-            
             url = Constants.SEARCH_PAGE;
         } else {
             request.setAttribute("ERROR", "Invalid UserID or Password");
         }
-        
-        return url;
     }
-    
+    return url;
+}
+
+
+
+private String processGoogleLogin(HttpServletRequest request, String code) throws Exception {
+    String accessToken = LoginGoogleHandler.getToken(code);
+    UserGoogleDTO userGoogle = LoginGoogleHandler.getUserInfo(accessToken);
+
+    if (userGoogle != null) {
+        HttpSession session = request.getSession();
+        session.setAttribute("USER", userGoogle); 
+        return Constants.SEARCH_PAGE;
+    } else {
+        request.setAttribute("ERROR", "Failed to authenticate with Google.");
+        return Constants.ERROR_PAGE;
+    }
+}
+
     private String processLogout(HttpServletRequest request) {
         HttpSession session = request.getSession(false);
         if (session != null) {
