@@ -3,13 +3,12 @@
     Created on : 16-Mar-2025, 02:09:22
     Author     : hoang an
 --%>
-
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="model.dto.CategoryDTO"%>
 <%@page import="model.dto.ProductDTO"%>
 <%@page import="java.util.List"%>
 <%@page import="model.utils.Constants"%>
 <%@page import="model.dto.UserDTO"%>
-<%@page import="model.dto.UserGoogleDTO"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -21,9 +20,7 @@
     </head>
     <body>
         <%
-
-            UserDTO user = (UserDTO) session.getAttribute("USER");
-            UserGoogleDTO userGoogle = (UserGoogleDTO) session.getAttribute("USER");
+            UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
             List<ProductDTO> products = (List<ProductDTO>) request.getAttribute("PRODUCTS");
             List<CategoryDTO> categories = (List<CategoryDTO>) request.getAttribute("CATEGORIES");
             String searchValue = (String) request.getAttribute("SEARCH_VALUE");
@@ -41,61 +38,57 @@
                 totalPages = 1;
             }
         %>
-
-        <!-- Navigation Bar -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="MainController?btAction=Search">BlindBoxStore</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link active" href="MainController?btAction=Search">Home</a>
-                        </li>
-                        <% if (user != null && Constants.ADMIN_ROLE.equals(user.getRole())) { %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
-                        </li>
-                        <% } %>
-                        <% if (user != null && !Constants.ADMIN_ROLE.equals(user.getRole())) { %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=TrackOrder">Track Order</a>
-                        </li>
-                        <% } %>
+            <!-- Navigation Bar -->
+          <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container">
+        <a class="navbar-brand" href="MainController?btAction=Search">BlindBoxStore</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav me-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="MainController?btAction=Search">Home</a>
+                </li>
+                <% if (user != null && Constants.ADMIN_ROLE.equals(user.getRole())) { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
+                </li>
+                <% } %>
+                <% if (user != null && !Constants.ADMIN_ROLE.equals(user.getRole())) { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="MainController?btAction=TrackOrder">Track Order</a>
+                </li>
+                <% } %>
+            </ul>
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="MainController?btAction=ViewCart">
+                        <i class="fas fa-shopping-cart"></i> Cart
+                    </a>
+                </li>
+                <% if (user == null) { %>
+                <li class="nav-item">
+                    <a class="nav-link" href="MainController?btAction=Login">Login</a>
+                </li>
+                <% } else { %>
+                <li class="nav-item dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        Welcome, <%= user.getFullName() %>
+                    </a>
+                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <li><a class="dropdown-item" href="MainController?btAction=User_Page">Profile</a></li>
+                        <li><a class="dropdown-item" href="MainController?btAction=Logout">Logout</a></li>
                     </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=ViewCart">
-                                <i class="fas fa-shopping-cart"></i> Cart
-                            </a>
-                        </li>
-                        <% if (user == null && userGoogle == null) { %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=Login">Login</a>
-                        </li>
-                        <% } else { %>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                <% if (user != null) {%>
-                                Welcome, <%= user.getFullName()%>
-                                <% } else if (userGoogle != null) {%>
-                                Welcome, <%= userGoogle.getName()%> (Google User)
-                                <% } %>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="MainController?btAction=Logout">Logout</a></li>
-                            </ul>
-                        </li>
-                        <% } %>
-                    </ul>
-                </div>
-            </div>
-        </nav>
+                </li>
+                <% } %>
+            </ul>
+        </div>
+    </div>
+</nav>
 
         <!-- Main Content -->
         <div class="container mt-4">
@@ -118,7 +111,7 @@
                 <div class="card-body">
                     <form action="MainController" method="GET" class="row g-3">
                         <div class="col-md-6">
-                            <label for="searchValue" class="form-label"> Title</label>
+                            <label for="searchValue" class="form-label"> Product Name</label>
                             <input type="text" class="form-control" id="searchValue" name="searchValue" value="<%= searchValue%>">
                         </div>
                         <div class="col-md-4">
@@ -126,12 +119,12 @@
                             <select class="form-select" id="categoryID" name="categoryID">
                                 <option value="">All Categories</option>
                                 <% if (categories != null) {
-                                for (CategoryDTO category : categories) {%>
+                                        for (CategoryDTO category : categories) {%>
                                 <option value="<%= category.getCategoryID()%>" <%= (categoryID != null && categoryID == category.getCategoryID()) ? "selected" : ""%>>
                                     <%= category.getCategoryName()%>
                                 </option>
                                 <% }
-                            } %>
+                                    } %>
                             </select>
                         </div>
                         <div class="col-md-2 d-flex align-items-end">
@@ -145,10 +138,11 @@
             <div class="row">
                 <% String part = "assets/images/"; %>
                 <% if (products != null && !products.isEmpty()) {
-                for (ProductDTO product : products) {%>
+                        for (ProductDTO product : products) {%>
                 <div class="col-md-3 mb-4">
                     <div class="card h-100">
-                        <img src="<%= product.getImageUrl()%>" class="card-img-top" alt="<%= product.getProductName()%>" style="height: 200px; object-fit: cover;">
+                        <img src="<%= product.getImageUrl()%>" class="card-img-top" alt="<%= product.getProductName()%>" style="height: 200px; object-fit: cover;"> 
+
                         <div class="card-body">
                             <h5 class="card-title"><%= product.getProductName()%></h5>
                             <p class="card-text text-muted">By <%= product.getSeries()%></p>
@@ -178,7 +172,7 @@
                     </div>
                 </div>
                 <% }
-        } else { %>
+                } else { %>
                 <div class="col-12">
                     <div class="alert alert-info" role="alert">
                         No product found.

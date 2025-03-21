@@ -13,10 +13,10 @@
     </head>
     <body>
         <%
-                UserDTO user = (UserDTO) session.getAttribute("USER");
+                UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
             if (user == null || !Constants.ADMIN_ROLE.equals(user.getRole())) {
                 response.sendRedirect("MainController?btAction=Login");
-                return;
+                        return;
             }
             
             List<CategoryDTO> categories = (List<CategoryDTO>) request.getAttribute("CATEGORIES");
