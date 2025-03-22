@@ -125,11 +125,11 @@ public class OrderDAO {
         
         try {
             conn = DBUtils.getConnection();
-            String sql = "SELECT orderID, userID, orderDate, totalAmount, customerName, "
-                       + "customerEmail, customerPhone, customerAddress, paymentMethod, paymentStatus "
-                       + "FROM Orders "
-                       + "WHERE orderID = ?";
-            
+            String sql = "SELECT orderID, userID, orderDate, totalAmount, customerName, \n"
+                    + "customerEmail, customerPhone, customerAddress, paymentMethod, paymentStatus, orderStatus\n"
+                    + "FROM Orders \n"
+                    + "WHERE orderID = ?";
+
             stm = conn.prepareStatement(sql);
             stm.setInt(1, orderID);
             
@@ -172,8 +172,8 @@ public class OrderDAO {
         
         try {
             conn = DBUtils.getConnection();
-            String sql = "SELECT od.orderDetailID, od.orderID, od.bookID, b.title, od.quantity, od.price "
-                       + "FROM OrderDetails od JOIN Books b ON od.bookID = b.bookID "
+            String sql = "SELECT od.orderDetailID, od.orderID, od.productID, b.productName, od.quantity, od.price "
+                       + "FROM OrderDetails od JOIN Products b ON od.productID = b.productID "
                        + "WHERE od.orderID = ?";
             
             stm = conn.prepareStatement(sql);
@@ -208,7 +208,7 @@ public class OrderDAO {
         try {
             conn = DBUtils.getConnection();
             String sql = "SELECT orderID, userID, orderDate, totalAmount, customerName, "
-                       + "customerEmail, customerPhone, customerAddress, paymentMethod, paymentStatus "
+                       + "customerEmail, customerPhone, customerAddress, paymentMethod, paymentStatus, orderStatus "
                        + "FROM Orders "
                        + "WHERE userID = ? "
                        + "ORDER BY orderDate DESC";

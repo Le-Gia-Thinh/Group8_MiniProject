@@ -449,6 +449,11 @@ public class MainController extends HttpServlet {
             }
         }
         
+        if (userID == null) {
+            request.setAttribute("ERROR", "You must log in to place an order");
+            return Constants.LOGIN_PAGE; // hoặc redirect về login
+        }
+   
         // Get customer information
         String customerName = request.getParameter("customerName");
         String customerEmail = request.getParameter("customerEmail");
