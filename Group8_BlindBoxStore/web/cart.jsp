@@ -13,7 +13,7 @@
     </head>
     <body>
         <%
-            UserDTO user = (UserDTO) session.getAttribute("USER");
+            UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
             Map<Integer, OrderDetailDTO> cart = (Map<Integer, OrderDetailDTO>) session.getAttribute("CART");
             UserDTO userInfo = (UserDTO) request.getAttribute("USER_INFO");
             Integer orderID = (Integer) request.getAttribute("ORDER_ID");

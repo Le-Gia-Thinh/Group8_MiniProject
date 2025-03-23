@@ -25,6 +25,17 @@ public class UserDTO implements Serializable {
         this.role = role;
         this.status = status;
     }
+
+    public UserDTO(String userID, String fullName, String email, String phone, String address, String role, boolean status) {
+        this.userID = userID;
+        this.fullName = fullName;
+        this.email = email;
+        this.phone = phone;
+        this.address = address;
+        this.role = role;
+        this.status = status;
+    }
+    
     
     // Getters and setters
     public String getUserID() {
@@ -90,4 +101,10 @@ public class UserDTO implements Serializable {
     public void setStatus(boolean status) {
         this.status = status;
     }
+
+    @Override
+    public String toString() {
+        return "UserDTO{" + "userID=" + userID + ", password=" + password + ", fullName=" + fullName + ", email=" + email + ", phone=" + phone + ", address=" + address + ", role=" + role + ", status=" + status + '}';
+    }
+    
 }

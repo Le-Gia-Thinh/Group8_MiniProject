@@ -1,0 +1,66 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : Mar 21, 2025, 4:52:30 PM
+    Author     : Legiathinh
+*/
+.Back-home {
+    border: 2px solid white;
+    border-radius: 15px;
+    display: flex; /* Thêm display flex để căn giữa */
+    justify-content: center; /* Căn giữa nội dung theo chiều ngang */
+    align-items: center; /* Căn giữa nội dung theo chiều dọc */
+    background-color: #007bff;
+    color: white; /* Màu chữ trắng */
+    font-size: 16px; /* Kích thước chữ lớn hơn */
+    height: 40px;
+    width: 200px;
+    text-decoration: none;
+    text-align: center; /* Đảm bảo văn bản căn giữa */
+}
+
+body {
+    background-image: url('../assets/css_background/Background_img1.jpg'); 
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    height : 100vh ;
+}
+ .button.login {
+    font-weight: bold;
+    border: 2px solid red;
+    border-radius: 15px;
+    text-align: center;
+    padding: 10px 20px;
+    background-color: palevioletred;
+    color: black;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+    height: 50px;
+    width: 250px;
+}
+
+.button.login a {
+    text-decoration: none;
+    color: black;
+    font-weight: bold;
+}
+.card-footer p{
+    color: crimson ;    
+}
+.button.login:hover {
+    background-color: peachpuff;
+}
+
+.card-footer {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    align-items: center;
+}

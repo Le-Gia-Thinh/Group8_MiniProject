@@ -1,8 +1,5 @@
-<%@page import="model.dto.OrderDetailDTO"%>
-<%@page import="model.dto.OrderDTO"%>
-<%@page import="java.text.SimpleDateFormat"%>
-<%@page import="model.utils.Constants"%>
-<%@page import="model.dto.UserDTO"%>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -13,17 +10,10 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head>
     <body>
-        <%
-            UserDTO user = (UserDTO) session.getAttribute("USER");
-            if (user == null) {
-                response.sendRedirect("MainController?btAction=Login");
-                return;
-            }
-            
-            OrderDTO order = (OrderDTO) request.getAttribute("ORDER");
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        %>
-        
+        <c:if test="${empty sessionScope.LOGIN_USER}">
+            <c:redirect url="MainController?btAction=Login"/>
+        </c:if>
+
         <!-- Navigation Bar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
@@ -36,29 +26,32 @@
                         <li class="nav-item">
                             <a class="nav-link" href="MainController?btAction=Search">Home</a>
                         </li>
-                        <% if (user != null && Constants.ADMIN_ROLE.equals(user.getRole())) { %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
-                        </li>
-                        <% } %>
-                        <% if (user != null && !Constants.ADMIN_ROLE.equals(user.getRole())) { %>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="MainController?btAction=TrackOrder">Track Order</a>
-                        </li>
-                        <% } %>
+                        <c:if test="${sessionScope.LOGIN_USER != null && sessionScope.LOGIN_USER.role == 'AD'}">
+                            <li class="nav-item">
+                                <a class="nav-link" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
+                            </li>
+                        </c:if>
+                        <c:if test="${sessionScope.LOGIN_USER != null && sessionScope.LOGIN_USER.role != 'AD'}">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="MainController?btAction=TrackOrder">Track Order</a>
+                            </li>
+                        </c:if>
                     </ul>
                     <ul class="navbar-nav">
                         <li class="nav-item">
                             <a class="nav-link" href="MainController?btAction=ViewCart">
                                 <i class="fas fa-shopping-cart"></i> Cart
+                                <c:if test="${not empty sessionScope.CART}">
+                                    <span class="badge bg-danger">${sessionScope.CART.size()}</span>
+                                </c:if>
                             </a>
                         </li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Welcome, <%= user.getFullName() %>
+                                Welcome, <c:out value="${sessionScope.LOGIN_USER.fullName}"/>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="MainController?btAction=Logout">Logout</a></li>
@@ -68,24 +61,24 @@
                 </div>
             </div>
         </nav>
-        
+
         <!-- Main Content -->
         <div class="container mt-4">
-            <% if (request.getAttribute("ERROR") != null) { %>
-            <div class="alert alert-danger" role="alert">
-                <%= request.getAttribute("ERROR") %>
-            </div>
-            <% } %>
-            
+            <c:if test="${not empty requestScope.ERROR}">
+                <div class="alert alert-danger" role="alert">
+                    <c:out value="${requestScope.ERROR}"/>
+                </div>
+            </c:if>
+
             <div class="card mb-4">
                 <div class="card-header">
                     <h4>Track Order</h4>
                 </div>
                 <div class="card-body">
-                    <form action="MainController" method="GET" class="row g-3">
+                    <form action="MainController" method="GET" class="row g-3" onsubmit="return validateTrackForm()">
                         <div class="col-md-8">
                             <label for="orderID" class="form-label">Order ID</label>
-                            <input type="number" class="form-control" id="orderID" name="orderID" required>
+                            <input type="number" class="form-control" id="orderID" name="orderID" required min="1" title="Order ID must be a positive number">
                         </div>
                         <div class="col-md-4 d-flex align-items-end">
                             <button type="submit" class="btn btn-primary w-100" name="btAction" value="TrackOrder">Track</button>
@@ -93,78 +86,88 @@
                     </form>
                 </div>
             </div>
-            
-            <% if (order != null) { %>
-            <div class="card mb-4">
-                <div class="card-header bg-primary text-white">
-                    <h4>Order #<%= order.getOrderID() %></h4>
-                </div>
-                <div class="card-body">
-                    <div class="row mb-4">
-                        <div class="col-md-6">
-                            <h5>Order Information</h5>
-                            <p><strong>Order ID:</strong> #<%= order.getOrderID() %></p>
-                            <p><strong>Order Date:</strong> <%= dateFormat.format(order.getOrderDate()) %></p>
-                            <p><strong>Payment Method:</strong> <%= order.getPaymentMethod() %></p>
-                            <p><strong>Payment Status:</strong> 
-                                <span class="badge <%= "COMPLETED".equals(order.getPaymentStatus()) ? "bg-success" : "bg-warning" %>">
-                                    <%= order.getPaymentStatus() %>
-                                </span>
-                            </p>
-                            <p><strong>Total Amount:</strong> $<%= String.format("%.2f", order.getTotalAmount()) %></p>
+
+            <c:if test="${not empty requestScope.ORDER}">
+                <div class="card mb-4">
+                    <div class="card-header bg-primary text-white">
+                        <h4>Order #${requestScope.ORDER.orderID}</h4>
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h5>Order Information</h5>
+                                <p><strong>Order ID:</strong> #${requestScope.ORDER.orderID}</p>
+                                <p><strong>Order Date:</strong> <fmt:formatDate value="${requestScope.ORDER.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
+                                <p><strong>Payment Method:</strong> <c:out value="${requestScope.ORDER.paymentMethod}"/></p>
+                                <p><strong>Payment Status:</strong>
+                                    <span class="badge ${requestScope.ORDER.paymentStatus == 'COMPLETED' ? 'bg-success' : 'bg-warning'}">
+                                        <c:out value="${requestScope.ORDER.paymentStatus}"/>
+                                    </span>
+                                </p>
+                                <p><strong>Total Amount:</strong> $<fmt:formatNumber value="${requestScope.ORDER.totalAmount}" pattern="#,##0.00"/></p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Customer Information</h5>
+                                <p><strong>Name:</strong> <c:out value="${requestScope.ORDER.customerName}"/></p>
+                                <p><strong>Email:</strong> <c:out value="${requestScope.ORDER.customerEmail}"/></p>
+                                <p><strong>Phone:</strong> <c:out value="${requestScope.ORDER.customerPhone}"/></p>
+                                <p><strong>Address:</strong> <c:out value="${requestScope.ORDER.customerAddress}"/></p>
+                            </div>
                         </div>
-                        <div class="col-md-6">
-                            <h5>Customer Information</h5>
-                            <p><strong>Name:</strong> <%= order.getCustomerName() %></p>
-                            <p><strong>Email:</strong> <%= order.getCustomerEmail() %></p>
-                            <p><strong>Phone:</strong> <%= order.getCustomerPhone() %></p>
-                            <p><strong>Address:</strong> <%= order.getCustomerAddress() %></p>
+
+                        <h5>Order Details</h5>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>BlindBox</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:if test="${not empty requestScope.ORDER.orderDetails}">
+                                        <c:forEach var="detail" items="${requestScope.ORDER.orderDetails}">
+                                            <tr>
+                                                <td><c:out value="${detail.productName}"/></td>
+                                                <td>$<fmt:formatNumber value="${detail.price}" pattern="#,##0.00"/></td>
+                                                <td>${detail.quantity}</td>
+                                                <td>$<fmt:formatNumber value="${detail.total}" pattern="#,##0.00"/></td>
+                                            </tr>
+                                        </c:forEach>
+                                    </c:if>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                                        <td><strong>$<fmt:formatNumber value="${requestScope.ORDER.totalAmount}" pattern="#,##0.00"/></strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
                         </div>
                     </div>
-                    
-                    <h5>Order Details</h5>
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th>BlindBox</th>
-                                    <th>Price</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <% if (order.getOrderDetails() != null) {
-                                    for (OrderDetailDTO detail : order.getOrderDetails()) { %>
-                                <tr>
-                                    <td><%= detail.getProductName() %></td>
-                                    <td>$<%= String.format("%.2f", detail.getPrice()) %></td>
-                                    <td><%= detail.getQuantity() %></td>
-                                    <td>$<%= String.format("%.2f", detail.getTotal()) %></td>
-                                </tr>
-                                <% }
-                                } %>
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="3" class="text-end"><strong>Total:</strong></td>
-                                    <td><strong>$<%= String.format("%.2f", order.getTotalAmount()) %></strong></td>
-                                </tr>
-                            </tfoot>
-                        </table>
-                    </div>
                 </div>
-            </div>
-            <% } %>
+            </c:if>
         </div>
-        
+
         <!-- Footer -->
         <footer class="bg-dark text-white mt-5 py-3">
             <div class="container text-center">
-                <p>&copy; 2025 BlindBoxStore. All rights reserved.</p>
+                <p>© 2025 BlindBoxStore. All rights reserved.</p>
             </div>
         </footer>
-        
+
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        <script>
+            function validateTrackForm() {
+                const orderID = document.getElementById('orderID').value;
+                if (orderID <= 0) {
+                    alert('Please enter a valid Order ID (positive number).');
+                    return false;
+                }
+                return true;
+            }
+        </script>
     </body>
 </html>

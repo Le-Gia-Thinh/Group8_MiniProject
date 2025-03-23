@@ -8,13 +8,13 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <title>Manage Products - Blind Box Store</title>
+        <title>Manage BlindBox - BlindBoxStore</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     </head>
     <body>
         <%
-            UserDTO user = (UserDTO) session.getAttribute("USER");
+            UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
             if (user == null || !Constants.ADMIN_ROLE.equals(user.getRole())) {
                 response.sendRedirect("MainController?btAction=Login");
                 return;
@@ -47,10 +47,10 @@
                             <a class="nav-link" href="MainController?btAction=Search">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="MainController?btAction=Update&action=view">Manage Products</a>
+                            <a class="nav-link active" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=Create&action=view">Add Products</a>
+                            <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
                         </li>
                     </ul>
                     <ul class="navbar-nav">
@@ -81,10 +81,11 @@
             <% } %>
 
             <% if (product != null) {%>
-            <!-- Edit Product Form -->
+
+            <!-- Edit BlindBox Form -->
             <div class="card mb-4">
                 <div class="card-header">
-                    <h4>Edit Product</h4>
+                    <h4>Edit BlindBox</h4>
                 </div>
                 <div class="card-body">
                     <form action="MainController" method="POST" enctype="multipart/form-data">
@@ -147,19 +148,19 @@
 
                         <div class="d-flex justify-content-between">
                             <a href="MainController?btAction=Update&action=view" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary" name="btAction" value="Update">Update Product</button>
+                            <button type="submit" class="btn btn-primary" name="btAction" value="Update">Update BlindBox</button>
                             <input type="hidden" name="action" value="update">
                         </div>
                     </form>
                 </div>
             </div>
             <% } else { %>
-            <!-- Product List -->
+            <!-- BlindBox List -->
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
-                    <h4>Manage Books</h4>
+                    <h4>Manage BlindBoxs</h4>
                     <a href="MainController?btAction=Create&action=view" class="btn btn-primary">
-                        <i class="fas fa-plus"></i> Add New Product
+                        <i class="fas fa-plus"></i> Add New BlindBox
                     </a>
                 </div>
                 <div class="card-body">
