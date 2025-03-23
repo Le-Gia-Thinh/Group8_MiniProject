@@ -2,6 +2,7 @@ package controller;
 
 
 
+
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 import java.io.IOException;
@@ -18,11 +19,11 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import model.dto.UserGoogleDTO;
 import model.utils.Constants;
-import org.apache.http.client.ClientProtocolException;
-import org.apache.http.client.fluent.Request;
-import org.apache.http.client.fluent.Form;
 import model.dao.*;
 import model.dto.*;
+import org.apache.http.client.ClientProtocolException;
+import org.apache.http.client.fluent.Form;
+import org.apache.http.client.fluent.Request;
 
 @WebServlet(urlPatterns = {"/LoginGoogleHandler"})
 public class LoginGoogleHandler extends HttpServlet {
