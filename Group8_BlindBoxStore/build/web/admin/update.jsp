@@ -51,10 +51,17 @@
                             <a class="nav-link" href="MainController?btAction=Search">Home</a>
                         </li>
                         <li class="nav-item">
+<<<<<<< HEAD
+                            <a class="nav-link active" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
+=======
                             <a class="nav-link active" href="MainController?btAction=Update&action=view">Manage Products</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="MainController?btAction=Create&action=view">Add Products</a>
+>>>>>>> 61556fed0f75486e0e2879af5392bb6ceb268deb
                         </li>
                     </ul>
                     <ul class="navbar-nav">
@@ -85,10 +92,17 @@
             <% } %>
 
             <% if (product != null) {%>
+<<<<<<< HEAD
+            <!-- Edit BlindBox Form -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Edit BlindBox</h4>
+=======
             <!-- Edit Product Form -->
             <div class="card mb-4">
                 <div class="card-header">
                     <h4>Edit Product</h4>
+>>>>>>> 61556fed0f75486e0e2879af5392bb6ceb268deb
                 </div>
                 <div class="card-body">
                     <form action="MainController" method="POST" enctype="multipart/form-data">
@@ -97,12 +111,21 @@
 
                         <div class="row mb-3">
                             <div class="col-md-6">
+<<<<<<< HEAD
+                                <label for="title" class="form-label">Title</label>
+                                <input type="text" class="form-control" id="title" name="title" value="<%= product.getProductName()%>" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="author" class="form-label">Author</label>
+                                <input type="text" class="form-control" id="author" name="author" value="<%= product.getSeries()%>" required>
+=======
                                 <label for="title" class="form-label">Product Name</label>
                                 <input type="text" class="form-control" id="productName" name="productName" value="<%= product.getProductName()%>" required>
                             </div>
                             <div class="col-md-6">
                                 <label for="author" class="form-label">Series</label>
                                 <input type="text" class="form-control" id="series" name="series" value="<%= product.getDescription()%>" required>
+>>>>>>> 61556fed0f75486e0e2879af5392bb6ceb268deb
                             </div>
                         </div>
 
@@ -151,19 +174,31 @@
 
                         <div class="d-flex justify-content-between">
                             <a href="MainController?btAction=Update&action=view" class="btn btn-secondary">Cancel</a>
+<<<<<<< HEAD
+                            <button type="submit" class="btn btn-primary" name="btAction" value="Update">Update BlindBox</button>
+=======
                             <button type="submit" class="btn btn-primary" name="btAction" value="Update">Update Product</button>
+>>>>>>> 61556fed0f75486e0e2879af5392bb6ceb268deb
                             <input type="hidden" name="action" value="update">
                         </div>
                     </form>
                 </div>
             </div>
             <% } else { %>
+<<<<<<< HEAD
+            <!-- BlindBox List -->
+=======
             <!-- Product List -->
+>>>>>>> 61556fed0f75486e0e2879af5392bb6ceb268deb
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4>Manage BlindBoxs</h4>
                     <a href="MainController?btAction=Create&action=view" class="btn btn-primary">
+<<<<<<< HEAD
+                        <i class="fas fa-plus"></i> Add New BlindBox
+=======
                         <i class="fas fa-plus"></i> Add New Product
+>>>>>>> 61556fed0f75486e0e2879af5392bb6ceb268deb
                     </a>
                 </div>
                 <div class="card-body">
@@ -184,6 +219,27 @@
                             </thead>
                             <tbody>
                                 <% if (products != null && !products.isEmpty()) {
+<<<<<<< HEAD
+                                        for (ProductDTO productItem : products) {%>
+                                <tr>
+                                    <td><%= productItem.getProductID()%></td>
+                                    <td>
+                                        <% String path = productItem.getImageUrl(); %>
+                                        <img src="<%= path%>" alt="<%= productItem.getProductName()%>" style="width: 50px; height: 70px; object-fit: cover;">
+                                    </td>
+                                    <td><%= productItem.getProductName()%></td>
+                                    <td><%= productItem.getSeries()%></td>
+                                    <td><%= productItem.getCategoryName()%></td>
+                                    <td>$<%= String.format("%.2f", productItem.getPrice())%></td>
+                                    <td><%= productItem.getQuantity()%></td>
+                                    <td>
+                                        <span class="badge <%= productItem.isStatus() ? "bg-success" : "bg-danger"%>">
+                                            <%= productItem.isStatus() ? "Active" : "Inactive"%>
+                                        </span>
+                                    </td>
+                                    <td>
+                                        <a href="MainController?btAction=Update&action=edit&productID=<%= productItem.getProductID()%>" class="btn btn-sm btn-warning">
+=======
                                         for (ProductDTO Item : products) {%>
                                 <tr>
                                     <td><%= Item.getProductID()%></td>
@@ -203,6 +259,7 @@
                                     </td>
                                     <td>
                                         <a href="MainController?btAction=Update&action=edit&productID=<%= Item.getProductID()%>" class="btn btn-sm btn-warning">
+>>>>>>> 61556fed0f75486e0e2879af5392bb6ceb268deb
                                             <i class="fas fa-edit"></i> Edit
                                         </a>
                                     </td>
