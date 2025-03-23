@@ -9,4 +9,4 @@
     <body>
         <h1>Redirecting to BlindBoxstore...</h1>
     </body>
-</html>
+</html> 
