@@ -35,7 +35,7 @@
                             <a class="nav-link" href="MainController?btAction=Search">Home</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=Update&action=view">Manage PtoductS</a>
+                            <a class="nav-link" href="MainController?btAction=Update&action=view">Manage Products</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link active" href="MainController?btAction=Create&action=view">Add Product</a>
@@ -81,7 +81,7 @@
                                 <input type="text" class="form-control" id="title" name="productName" required>
                             </div>
                             <div class="col-md-6">
-                                <label for="series" class="form-label">Author</label>
+                                <label for="series" class="form-label">Series</label>
                                 <input type="text" class="form-control" id="author" name="series" required>
                             </div>
                         </div>
@@ -118,6 +118,14 @@
                             <label for="imageFile" class="form-label">Image</label>
                             <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*">
                             <div class="form-text">If no image is selected, a default image will be used.</div>
+                        </div>
+                                
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" name="status" required>
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                            </select>
                         </div>
                         
                         <div class="d-flex justify-content-between">

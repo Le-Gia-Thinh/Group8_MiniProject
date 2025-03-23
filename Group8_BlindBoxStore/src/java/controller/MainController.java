@@ -496,7 +496,7 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
                 return Constants.CART_PAGE;
             }
         }
-
+        
         // Get customer information
         String customerName = request.getParameter("customerName");
         String customerEmail = request.getParameter("customerEmail");

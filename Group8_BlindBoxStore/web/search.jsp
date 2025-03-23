@@ -83,6 +83,7 @@
                         <li><a class="dropdown-item" href="MainController?btAction=User_Page">Profile</a></li>
                         <li><a class="dropdown-item" href="MainController?btAction=Logout">Logout</a></li>
                     </ul>
+<<<<<<< HEAD
                 </li>
                 <% } %>
             </ul>
@@ -90,6 +91,39 @@
     </div>
 </nav>
 
+=======
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="MainController?btAction=ViewCart">
+                                <i class="fas fa-shopping-cart"></i> Cart
+                            </a>
+                        </li>
+                        <% if (user == null) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="MainController?btAction=Login">Login</a>
+                        </li>
+                        <% } else { %>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Welcome, <%= user.getFullName() %>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="MainController?btAction=Logout">Logout</a></li>
+                            </ul>
+                        </li>
+                        <% } %>
+                    </ul>
+                </div>
+            </div>
+        </nav>  
+                    
+        <!-- Banner -->
+            <div class="container-fluid p-0 m-0 d-flex justify-content-center">
+                <div class="banner position-relative" style="object-fit: cover; height: 50vh; margin: 0; padding: 0;">
+                    <img src="assets/images/BabythreeBanner.jpg" alt="Baby Three Banner" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </div>
+            </div>
+>>>>>>> 61556fed0f75486e0e2879af5392bb6ceb268deb
         <!-- Main Content -->
         <div class="container mt-4">
             <% if (request.getAttribute("SUCCESS") != null) {%>
