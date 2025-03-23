@@ -84,17 +84,12 @@
             </div>
         </nav>  
                     
-
-
-       
-            
-            
-                        <!-- Banner -->
-                        <div class="container-fluid p-0 m-0 d-flex justify-content-center">
-                            <div class="banner position-relative" style="height: 580px; width: 1903px; margin: 0; padding: 0;">
-                                <img src="assets/images/BabythreeBanner.jpg" alt="Baby Three Banner" style="width: 100%; height: 100%; object-fit: cover; display: block;">
-                            </div>
-                        </div>
+        <!-- Banner -->
+            <div class="container-fluid p-0 m-0 d-flex justify-content-center">
+                <div class="banner position-relative" style="object-fit: cover; height: 50vh; margin: 0; padding: 0;">
+                    <img src="assets/images/BabythreeBanner.jpg" alt="Baby Three Banner" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </div>
+            </div>
         <!-- Main Content -->
         <div class="container mt-4">
             <% if (request.getAttribute("SUCCESS") != null) { %>

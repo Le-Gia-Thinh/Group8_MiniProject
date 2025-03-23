@@ -147,14 +147,14 @@
 
                         <div class="d-flex justify-content-between">
                             <a href="MainController?btAction=Update&action=view" class="btn btn-secondary">Cancel</a>
-                            <button type="submit" class="btn btn-primary" name="btAction" value="Update">Update Book</button>
+                            <button type="submit" class="btn btn-primary" name="btAction" value="Update">Update Product</button>
                             <input type="hidden" name="action" value="update">
                         </div>
                     </form>
                 </div>
             </div>
             <% } else { %>
-            <!-- Book List -->
+            <!-- Product List -->
             <div class="card mb-4">
                 <div class="card-header d-flex justify-content-between align-items-center">
                     <h4>Manage Books</h4>
@@ -239,7 +239,7 @@
         <!-- Footer -->
         <footer class="bg-dark text-white mt-5 py-3">
             <div class="container text-center">
-                <p>&copy; 2023 Bookstore. All rights reserved.</p>
+                <p>&copy; 2023 BlindBoxStore. All rights reserved.</p>
             </div>
         </footer>
 
