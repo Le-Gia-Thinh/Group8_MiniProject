@@ -150,6 +150,7 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
     private String processSearch(HttpServletRequest request) throws Exception {
         String searchValue = request.getParameter("searchValue");
         String categoryIDStr = request.getParameter("categoryID");
+        String sortBy = request.getParameter("sortBy");
         Integer categoryID = null;
 
         if (categoryIDStr != null && !categoryIDStr.isEmpty()) {
@@ -163,7 +164,7 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
         }
 
         ProductDAO productDao = new ProductDAO();
-        List<ProductDTO> products = productDao.searchProducts(searchValue, categoryID, page, Constants.PRODUCTS_PER_PAGE);
+        List<ProductDTO> products = productDao.searchProducts(searchValue, categoryID, page, Constants.PRODUCTS_PER_PAGE, sortBy);
         int totalProducts = productDao.countProducts(searchValue, categoryID);
         int totalPages = (int) Math.ceil((double) totalProducts / Constants.PRODUCTS_PER_PAGE);
 
@@ -176,7 +177,7 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
         request.setAttribute("CATEGORY_ID", categoryID);
         request.setAttribute("CURRENT_PAGE", page);
         request.setAttribute("TOTAL_PAGES", totalPages);
-
+        request.setAttribute("SORT_BY", sortBy);
         return Constants.SEARCH_PAGE;
     }
 

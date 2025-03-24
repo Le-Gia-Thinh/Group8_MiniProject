@@ -10,16 +10,16 @@ and open the template in the editor.
 .Back-home {
     border: 2px solid white;
     border-radius: 15px;
-    display: flex; /* Thêm display flex để căn giữa */
-    justify-content: center; /* Căn giữa nội dung theo chiều ngang */
-    align-items: center; /* Căn giữa nội dung theo chiều dọc */
+    display: flex; 
+    justify-content: center;
+    align-items: center; 
     background-color: #007bff;
-    color: white; /* Màu chữ trắng */
-    font-size: 16px; /* Kích thước chữ lớn hơn */
+    color: white;
+    font-size: 16px; 
     height: 40px;
     width: 200px;
     text-decoration: none;
-    text-align: center; /* Đảm bảo văn bản căn giữa */
+    text-align: center; 
 }
 
 body {

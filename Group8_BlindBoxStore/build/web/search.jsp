@@ -17,6 +17,7 @@
         <title>BlindBoxStore</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+        <link href="./css/search.css" rel="stylesheet">
     </head>
     <body>
         <%
@@ -39,7 +40,7 @@
             }
         %>
             <!-- Navigation Bar -->
-          <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+          <nav class="navbar navbar-expand-lg navbar-dark ">
     <div class="container">
         <a class="navbar-brand" href="MainController?btAction=Search">BlindBoxStore</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -136,38 +137,59 @@
             <% }%>
 
             <!-- Search Form -->
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h4>Search Product</h4>
-                </div>
-                <div class="card-body">
-                    <form action="MainController" method="GET" class="row g-3">
-                        <div class="col-md-6">
-                            <label for="searchValue" class="form-label"> Product Name</label>
-                            <input type="text" class="form-control" id="searchValue" name="searchValue" value="<%= searchValue%>">
-                        </div>
-                        <div class="col-md-4">
-                            <label for="categoryID" class="form-label">Category</label>
-                            <select class="form-select" id="categoryID" name="categoryID">
-                                <option value="">All Categories</option>
-                                <% if (categories != null) {
-                                        for (CategoryDTO category : categories) {%>
-                                <option value="<%= category.getCategoryID()%>" <%= (categoryID != null && categoryID == category.getCategoryID()) ? "selected" : ""%>>
-                                    <%= category.getCategoryName()%>
-                                </option>
-                                <% }
-                                    } %>
-                            </select>
-                        </div>
-                        <div class="col-md-2 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary w-100" name="btAction" value="Search">Search</button>
-                        </div>
-                    </form>
-                </div>
+<div class="card mb-4">
+    <div class="card-header">
+        <h4>Search Product</h4>
+    </div>
+    <div class="card-body">
+        <form action="MainController" method="GET" class="row g-3">
+            <div class="col-md-4">
+                <label for="searchValue" class="form-label">Product Name</label>
+                <input type="text" class="form-control" id="searchValue" name="searchValue" value="<%= searchValue %>">
             </div>
+            <div class="col-md-3">
+                <label for="categoryID" class="form-label">Category</label>
+                <select class="form-select" id="categoryID" name="categoryID">
+                    <option value="">All Categories</option>
+                    <% if (categories != null) {
+                           for (CategoryDTO category : categories) { %>
+                    <option value="<%= category.getCategoryID()%>" 
+                            <%= (categoryID != null && categoryID == category.getCategoryID()) ? "selected" : ""%>>
+                        <%= category.getCategoryName()%>
+                    </option>
+                    <%   }
+                       } %>
+                </select>
+            </div>
+            <!-- Sort By -->
+            <div class="col-md-3">
+                <label for="sortBy" class="form-label">Sort By</label>
+                <select class="form-select" id="sortBy" name="sortBy">
+                    <option value="">Default</option>
+                    <option value="priceAsc"  <%= "priceAsc".equals(request.getParameter("sortBy")) ? "selected" : "" %> >
+                        Price (Low -> High)
+                    </option>
+                    <option value="priceDesc" <%= "priceDesc".equals(request.getParameter("sortBy")) ? "selected" : "" %> >
+                        Price (High -> Low)
+                    </option>
+                    <option value="nameAsc"   <%= "nameAsc".equals(request.getParameter("sortBy")) ? "selected" : "" %> >
+                        Name (A -> Z)
+                    </option>
+                    <option value="nameDesc"  <%= "nameDesc".equals(request.getParameter("sortBy")) ? "selected" : "" %> >
+                        Name (Z -> A)
+                    </option>
+                </select>
+            </div>
+            <div class="col-md-2 d-flex align-items-end">
+                <button type="submit" class="btn btn-primary w-100" name="btAction" value="Search">Search</button>
+            </div>
+        </form>
+    </div>
+</div>
+
 
             <!-- Product List -->
-            <div class="row">
+            <div class="row product">
                 <% String part = "assets/images/"; %>
                 <% if (products != null && !products.isEmpty()) {
                         for (ProductDTO product : products) {%>
@@ -191,7 +213,7 @@
                             <% if (product.getQuantity() > 0 && (user == null || !Constants.ADMIN_ROLE.equals(user.getRole()))) {%>
                             <form action="MainController" method="POST">
                                 <input type="hidden" name="productID" value="<%= product.getProductID()%>">
-                                <button type="submit" class="btn btn-primary w-100" name="btAction" value="AddToCart">
+                                <button type="submit" class="btn btn-primary w-100 button-add-to-cart" name="btAction" value="AddToCart">
                                     <i class="fas fa-cart-plus"></i> Add to Cart
                                 </button>
                             </form>
