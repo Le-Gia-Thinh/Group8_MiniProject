@@ -12,48 +12,58 @@ import model.utils.DBUtils;
 
 public class ProductDAO {
 
-    public List<ProductDTO> searchProducts(String searchValue, Integer categoryID, int page, int productPerPage)
+    public List<ProductDTO> searchProducts(String searchValue, Integer categoryID, int page, int productPerPage, String sortBy)
             throws SQLException, ClassNotFoundException {
         List<ProductDTO> products = new ArrayList<>();
         Connection conn = null;
         PreparedStatement stm = null;
         ResultSet rs = null;
-
         try {
             conn = DBUtils.getConnection();
             String sql = "SELECT p.productID, p.productName, p.series, p.description, p.price, p.quantity, "
-                    + "p.imageUrl, p.categoryID, c.categoryName, p.createDate, p.lastUpdateDate, "
-                    + "p.lastUpdateUser, p.status "
-                    + "FROM Products p JOIN Categories c ON p.categoryID = c.categoryID "
-                    + "WHERE p.status = 1 AND p.quantity > 0 ";
-
+                       + "p.imageUrl, p.categoryID, c.categoryName, p.createDate, p.lastUpdateDate, "
+                       + "p.lastUpdateUser, p.status "
+                       + "FROM Products p JOIN Categories c ON p.categoryID = c.categoryID "
+                       + "WHERE p.status = 1 AND p.quantity > 0 ";
             if (searchValue != null && !searchValue.trim().isEmpty()) {
                 sql += "AND p.productName LIKE ? ";
             }
-
             if (categoryID != null) {
                 sql += "AND p.categoryID = ? ";
             }
-
-            sql += "ORDER BY p.createDate DESC "
-                    + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
-
+            if (sortBy != null) {
+                switch (sortBy) {
+                    case "priceAsc":
+                        sql += "ORDER BY p.price ASC ";
+                        break;
+                    case "priceDesc":
+                        sql += "ORDER BY p.price DESC ";
+                        break;
+                    case "nameAsc":
+                        sql += "ORDER BY p.productName ASC ";
+                        break;
+                    case "nameDesc":
+                        sql += "ORDER BY p.productName DESC ";
+                        break;
+                    default:
+                        sql += "ORDER BY p.createDate DESC ";
+                        break;
+                }
+            } else {
+                sql += "ORDER BY p.createDate DESC ";
+            }
+            sql += "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
             stm = conn.prepareStatement(sql);
-
             int paramIndex = 1;
             if (searchValue != null && !searchValue.trim().isEmpty()) {
                 stm.setString(paramIndex++, "%" + searchValue + "%");
             }
-
             if (categoryID != null) {
                 stm.setInt(paramIndex++, categoryID);
             }
-
             stm.setInt(paramIndex++, (page - 1) * productPerPage);
             stm.setInt(paramIndex, productPerPage);
-
             rs = stm.executeQuery();
-
             while (rs.next()) {
                 int productId = rs.getInt("productId");
                 String productName = rs.getString("productName");
@@ -68,23 +78,14 @@ public class ProductDAO {
                 Date lastUpdateDate = rs.getTimestamp("lastUpdateDate");
                 String lastUpdateUser = rs.getString("lastUpdateUser");
                 boolean status = rs.getBoolean("status");
-
                 products.add(new ProductDTO(productId, productName, series, description, price, quantity,
-                        imageUrl, catID, categoryName, createDate,
-                        lastUpdateDate, lastUpdateUser, status));
+                        imageUrl, catID, categoryName, createDate, lastUpdateDate, lastUpdateUser, status));
             }
         } finally {
-            if (rs != null) {
-                rs.close();
-            }
-            if (stm != null) {
-                stm.close();
-            }
-            if (conn != null) {
-                DBUtils.closeConnection(conn);
-            }
+            if (rs != null) rs.close();
+            if (stm != null) stm.close();
+            if (conn != null) DBUtils.closeConnection(conn);
         }
-
         return products;
     }
 
