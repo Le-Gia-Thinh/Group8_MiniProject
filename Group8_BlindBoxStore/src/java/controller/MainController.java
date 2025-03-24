@@ -184,12 +184,12 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
         String url = Constants.UPDATE_PAGE;
 
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("USER") == null) {
+        if (session == null || session.getAttribute("LOGIN_USER") == null) {
             request.setAttribute("ERROR", "Please login to continue");
             return Constants.LOGIN_PAGE;
         }
 
-        UserDTO user = (UserDTO) session.getAttribute("USER");
+        UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
         if (!Constants.ADMIN_ROLE.equals(user.getRole())) {
             request.setAttribute("ERROR", "You do not have permission to access this page");
             return Constants.ERROR_PAGE;
@@ -286,12 +286,12 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
         String url = Constants.CREATE_PAGE;
 
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("USER") == null) {
+        if (session == null || session.getAttribute("LOGIN_USER") == null) {
             request.setAttribute("ERROR", "Please login to continue");
             return Constants.LOGIN_PAGE;
         }
 
-        UserDTO user = (UserDTO) session.getAttribute("USER");
+        UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
         if (!Constants.ADMIN_ROLE.equals(user.getRole())) {
             request.setAttribute("ERROR", "You do not have permission to access this page");
             return Constants.ERROR_PAGE;
@@ -463,7 +463,7 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
         }
 
         // Pre-fill user information if logged in
-        UserDTO user = (UserDTO) session.getAttribute("USER");
+        UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
         if (user != null) {
             request.setAttribute("USER_INFO", user);
         }
@@ -486,7 +486,7 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
 
         // Get user information
         String userID = null;
-        UserDTO user = (UserDTO) session.getAttribute("USER");
+        UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
         if (user != null) {
             userID = user.getUserID();
 
@@ -562,7 +562,7 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
 
     private String processTrackOrder(HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("USER") == null) {
+        if (session == null || session.getAttribute("LOGIN_USER") == null) {
             request.setAttribute("ERROR", "Please login to track your order");
             return Constants.LOGIN_PAGE;
         }
@@ -575,7 +575,7 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
             OrderDTO order = orderDAO.getOrderByID(orderID);
 
             if (order != null) {
-                UserDTO user = (UserDTO) session.getAttribute("USER");
+                UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
 
                 // Check if order belongs to user or user is admin
                 if (order.getUserID() != null && order.getUserID().equals(user.getUserID())
