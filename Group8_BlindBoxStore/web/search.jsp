@@ -1,8 +1,3 @@
-<%-- 
-    Document   : newjsp
-    Created on : 16-Mar-2025, 02:09:22
-    Author     : hoang an
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="model.dto.CategoryDTO"%>
 <%@page import="model.dto.ProductDTO"%>
@@ -38,72 +33,100 @@
             if (totalPages == null) {
                 totalPages = 1;
             }
+            String priceSort = (String) request.getAttribute("PRICE_SORT");
+            if (priceSort == null) {
+                priceSort = "";
+            }
         %>
-            <!-- Navigation Bar -->
-            <nav class="navbar navbar-expand-lg navbar-dark">
-                <div class="container">
-                    <a class="navbar-brand" href="MainController?btAction=Search">BlindBoxStore</a>
-                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
-                            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
-                            aria-label="Toggle navigation">
-                        <span class="navbar-toggler-icon"></span>
-                    </button>
-                    <div class="collapse navbar-collapse" id="navbarNav">
-                        <ul class="navbar-nav me-auto">
-                            <li class="nav-item">
-                                <a class="nav-link active" href="MainController?btAction=Search">Home</a>
-                            </li>
-                            <% if (user != null && Constants.ADMIN_ROLE.equals(user.getRole())) { %>
-                            <li class="nav-item">
-                                <a class="nav-link" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
-                            </li>
-                            <li class="nav-item">
-                                <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
-                            </li>
-                            <% } %>
-                            <% if (user != null) { %>
-                            <li class="nav-item">
-                                <a class="nav-link" href="MainController?btAction=TrackOrder">Track Order</a>
-                            </li>
-                            <% } %>
-                        </ul>
-                        <ul class="navbar-nav">
-                            <li class="nav-item">
-                                <a class="nav-link" href="MainController?btAction=ViewCart">
-                                    <i class="fas fa-shopping-cart"></i> Cart
-                                </a>
-                            </li>
-                            <% if (user == null) { %>
-                            <li class="nav-item">
-                                <a class="nav-link" href="MainController?btAction=Login">Login</a>
-                            </li>
-                            <% } else {%>
-                            <li class="nav-item dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
-                                   data-bs-toggle="dropdown" aria-expanded="false">
-                                    Welcome, <%= user.getFullName()%>
-                                </a>
-                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                    <li>
-                                        <a class="dropdown-item" href="MainController?btAction=User_Page">Profile</a>
-                                    </li>
-                                    <li>
-                                        <a class="dropdown-item" href="MainController?btAction=Logout">Logout</a>
-                                    </li>
-                                </ul>
-                            </li>
-                            <% } %>
-                        </ul>
-                    </div>
-                </div>
-            </nav>
-                    
-        <!-- Banner -->
-            <div class="container-fluid p-0 m-0 d-flex justify-content-center">
-                <div class="banner position-relative" style="object-fit: cover; height: 50vh; margin: 0; padding: 0;">
-                    <img src="assets/images/BabythreeBanner.jpg" alt="Baby Three Banner" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+        <!-- Navigation Bar -->
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="MainController?btAction=Search">BlindBoxStore</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="MainController?btAction=Search">Home</a>
+                        </li>
+                        <% if (user != null && Constants.ADMIN_ROLE.equals(user.getRole())) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="MainController?btAction=ViewRevenue">
+                                <i class="fas fa-chart-bar"></i> View Revenue
+                            </a>
+                        </li>
+                        <% } %>
+                        <% if (user != null && !Constants.ADMIN_ROLE.equals(user.getRole())) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="MainController?btAction=TrackOrder">Track Order</a>
+                        </li>
+                        <% } %>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link" href="MainController?btAction=ViewCart">
+                                <i class="fas fa-shopping-cart"></i> Cart
+                            </a>
+                        </li>
+                        <% if (user == null) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="MainController?btAction=Login">Login</a>
+                        </li>
+                        <% } else {%>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                Welcome, <%= user.getFullName()%>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="MainController?btAction=User_Page">Profile</a></li>
+                                <li><a class="dropdown-item" href="MainController?btAction=Logout">Logout</a></li>
+                            </ul>
+                        </li>
+                        <% } %>
+                    </ul>
                 </div>
             </div>
+        </nav>
+
+
+
+        <!-- Banner Slider -->
+        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
+            <div class="carousel-inner">
+                <!-- Slide 1 -->
+                <div class="carousel-item active">
+                    <img src="assets/images/BabythreeBanner.jpg" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="Banner 1">
+                </div>
+                <!-- Slide 2 -->
+                <div class="carousel-item">
+                    <img src="assets/images/BabyThreeBanner2.jpg" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="Banner 2">
+                </div>
+            </div>
+
+            <!-- Nút điều hướng -->
+            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+            </button>
+            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+            </button>
+
+            <!-- Nếu muốn thêm chỉ số -->
+            <div class="carousel-indicators">
+                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
+            </div>
+        </div>
+
         <!-- Main Content -->
         <div class="container mt-4">
             <% if (request.getAttribute("SUCCESS") != null) {%>
@@ -118,15 +141,43 @@
             <% }%>
 
             <!-- Search Form -->
-<div class="card mb-4">
-    <div class="card-header">
-        <h4>Search Product</h4>
-    </div>
-    <div class="card-body">
-        <form action="MainController" method="GET" class="row g-3">
-            <div class="col-md-4">
-                <label for="searchValue" class="form-label">Product Name</label>
-                <input type="text" class="form-control" id="searchValue" name="searchValue" value="<%= searchValue %>">
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Search Product</h4>
+                </div>
+                <div class="card-body">
+                    <form action="MainController" method="GET" class="row g-3">
+                        <div class="col-md-5">
+                            <label for="searchValue" class="form-label"> Product Name</label>
+                            <input type="text" class="form-control" id="searchValue" name="searchValue" value="<%= searchValue%>">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="categoryID" class="form-label">Category</label>
+                            <select class="form-select" id="categoryID" name="categoryID">
+                                <option value="">All Categories</option>
+                                <% if (categories != null) {
+                                        for (CategoryDTO category : categories) {%>
+                                <option value="<%= category.getCategoryID()%>" <%= (categoryID != null && categoryID == category.getCategoryID()) ? "selected" : ""%>>
+                                    <%= category.getCategoryName()%>
+                                </option>
+                                <% }
+                                    }%>
+                            </select>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="priceSort" class="form-label">Price Sort</label>
+                            <select class="form-select" id="priceSort" name="priceSort">
+                                <option value="" <%= priceSort.equals("") ? "selected" : ""%>>No Sort</option>
+                                <option value="asc" <%= priceSort.equals("asc") ? "selected" : ""%>>Price Low to High</option>
+                                <option value="desc" <%= priceSort.equals("desc") ? "selected" : ""%>>Price High to Low</option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <input type="hidden" name="priceSort" value="<%= priceSort%>">
+                            <button type="submit" class="btn btn-primary w-100" name="btAction" value="Search">Search</button>
+                        </div>
+                    </form>
+                </div>
             </div>
             <div class="col-md-3">
                 <label for="categoryID" class="form-label">Category</label>
@@ -220,16 +271,30 @@
             <% if (totalPages > 1) {%>
             <nav aria-label="Page navigation" class="mt-4">
                 <ul class="pagination justify-content-center">
+                    <!-- Nút Previous -->
                     <li class="page-item <%= currentPage == 1 ? "disabled" : ""%>">
-                        <a class="page-link" href="MainController?btAction=Search&searchValue=<%= searchValue%>&categoryID=<%= categoryID != null ? categoryID : ""%>&page=<%= currentPage - 1%>">Previous</a>
+                        <a class="page-link" 
+                           href="MainController?btAction=Search&searchValue=<%= searchValue%>&categoryID=<%= categoryID != null ? categoryID : ""%>&priceSort=<%= priceSort != null ? priceSort : ""%>&page=<%= currentPage - 1%>">
+                            Previous
+                        </a>
                     </li>
+
+                    <!-- Các số trang -->
                     <% for (int i = 1; i <= totalPages; i++) {%>
                     <li class="page-item <%= i == currentPage ? "active" : ""%>">
-                        <a class="page-link" href="MainController?btAction=Search&searchValue=<%= searchValue%>&categoryID=<%= categoryID != null ? categoryID : ""%>&page=<%= i%>"><%= i%></a>
+                        <a class="page-link" 
+                           href="MainController?btAction=Search&searchValue=<%= searchValue%>&categoryID=<%= categoryID != null ? categoryID : ""%>&priceSort=<%= priceSort != null ? priceSort : ""%>&page=<%= i%>">
+                            <%= i%>
+                        </a>
                     </li>
                     <% }%>
+
+                    <!-- Nút Next -->
                     <li class="page-item <%= currentPage == totalPages ? "disabled" : ""%>">
-                        <a class="page-link" href="MainController?btAction=Search&searchValue=<%= searchValue%>&categoryID=<%= categoryID != null ? categoryID : ""%>&page=<%= currentPage + 1%>">Next</a>
+                        <a class="page-link" 
+                           href="MainController?btAction=Search&searchValue=<%= searchValue%>&categoryID=<%= categoryID != null ? categoryID : ""%>&priceSort=<%= priceSort != null ? priceSort : ""%>&page=<%= currentPage + 1%>">
+                            Next
+                        </a>
                     </li>
                 </ul>
             </nav>

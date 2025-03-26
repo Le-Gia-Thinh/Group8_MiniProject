@@ -34,35 +34,41 @@
                 }
             %>
 
-        <!-- Navigation Bar -->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="MainController?btAction=Search">BlindBoxStore</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNav">
-                    <ul class="navbar-nav me-auto">
-                        <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=Search">Home</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="MainController?btAction=Update&action=view">Manage Products</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=Create&action=view">Add Products</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Welcome, <%= user.getFullName()%>
+            <!-- Navigation Bar -->
+            <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+                <div class="container">
+                    <a class="navbar-brand" href="MainController?btAction=Search">BlindBoxStore</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link" href="MainController?btAction=Search">Home</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="MainController?btAction=Update&action=view">Manage Products</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="MainController?btAction=Create&action=view">Add Products</a>
+                            </li>
+                            <li class="nav-item">
+                            <a class="nav-link" href="MainController?btAction=ViewRevenue">
+                                <i class="fas fa-chart-bar"></i> View Revenue
                             </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="MainController?btAction=Logout">Logout</a></li>
-                            </ul>
                         </li>
-                    </ul>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Welcome, <%= user.getFullName()%>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li><a class="dropdown-item" href="MainController?btAction=Logout">Logout</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </nav>

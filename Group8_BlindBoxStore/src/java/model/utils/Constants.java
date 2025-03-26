@@ -16,6 +16,9 @@ public class Constants {
     public static final String CONFIRM_ORDER_ACTION = "ConfirmOrder";
     public static final String TRACK_ORDER_ACTION = "TrackOrder";
     public static final String REGISTER_ACTION = "Register";
+    public static final String PRICE_SORT = "PriceSort";
+    public static final String REVENUE_ACTION = "ViewRevenue";
+    
     // Pages
     public static final String LOGIN_PAGE = "login.jsp";
     public static final String SEARCH_PAGE = "search.jsp";
@@ -25,6 +28,7 @@ public class Constants {
     public static final String ORDER_TRACKING_PAGE = "order-tracking.jsp";
     public static final String ERROR_PAGE = "error.jsp";
     public static final String REGISTER_PAGE = "register.jsp";
+    public static final String REVENUE_PAGE = "admin/revenue.jsp";
 
     // Roles
     public static final String ADMIN_ROLE = "ADMIN";

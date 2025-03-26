@@ -45,9 +45,9 @@ public class MainController extends HttpServlet {
             if (action == null || action.isEmpty()) {
                 url = Constants.SEARCH_PAGE;
             } else if (action.equals(Constants.LOGIN_ACTION)) {
-                 url = processLogin(request, response);
+                url = processLogin(request, response);
             } else if (action.equals(Constants.LOGOUT_ACTION)) {
-                  url = processLogout(request, response);
+                url = processLogout(request, response);
             } else if (USER_PAGE.equals(action)) {
                 url = USER_PAGE_VIEW;
             } else if (REGISTER_PAGE.equals(action)) {
@@ -55,7 +55,14 @@ public class MainController extends HttpServlet {
             } else if (REGISTER.equals(action)) {
                 url = REGISTER_CONTROLLER;
             } else if (action.equals(Constants.SEARCH_ACTION)) {
-                url = processSearch(request);
+                String priceSort = request.getParameter("priceSort");
+                request.setAttribute("PRICE_SORT", priceSort);
+
+                if (priceSort != null && !priceSort.isEmpty()) {
+                    url = processPriceSort(request);
+                } else {
+                    url = processSearch(request);
+                }
             } else if (action.equals(Constants.UPDATE_ACTION)) {
                 url = processUpdate(request);
             } else if (action.equals(Constants.CREATE_ACTION)) {
@@ -74,9 +81,8 @@ public class MainController extends HttpServlet {
                 url = processConfirmOrder(request);
             } else if (action.equals(Constants.TRACK_ORDER_ACTION)) {
                 url = processTrackOrder(request);
-            } else {
-                request.setAttribute("ERROR", "Action not supported");
-                url = Constants.ERROR_PAGE;
+            } else if (action.equals(Constants.REVENUE_ACTION)) {
+                url = processViewRevenue(request, response);
             }
         } catch (Exception e) {
             log("Error at MainController: " + e.toString());
@@ -87,72 +93,73 @@ public class MainController extends HttpServlet {
         }
     }
 
-   private String processLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    String url = Constants.LOGIN_PAGE;
-    request.removeAttribute("ERROR");
-    String userID = request.getParameter("userID");
-    String password = request.getParameter("password");
-    if (userID != null && !userID.isEmpty() && password != null && !password.isEmpty()) {
-        UserDAO userDAO = new UserDAO();
-        UserDTO user = userDAO.checkLogin(userID, password);
+    private String processLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String url = Constants.LOGIN_PAGE;
+        request.removeAttribute("ERROR");
+        String userID = request.getParameter("userID");
+        String password = request.getParameter("password");
+        if (userID != null && !userID.isEmpty() && password != null && !password.isEmpty()) {
+            UserDAO userDAO = new UserDAO();
+            UserDTO user = userDAO.checkLogin(userID, password);
 
-        if (user != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("LOGIN_USER", user);
-            Cookie userCookie = new Cookie("userID", user.getUserID());
-            userCookie.setMaxAge(60 * 60 * 7200); 
-            response.addCookie(userCookie);
+            if (user != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("LOGIN_USER", user);
+                Cookie userCookie = new Cookie("userID", user.getUserID());
+                userCookie.setMaxAge(60 * 60 * 7200);
+                response.addCookie(userCookie);
 
-            url = Constants.SEARCH_PAGE;
-        } else {
-            request.setAttribute("ERROR", "Invalid UserID or Password");
+                url = Constants.SEARCH_PAGE;
+            } else {
+                request.setAttribute("ERROR", "Invalid UserID or Password");
+            }
         }
+        return url;
     }
-    return url;
-}
-private void checkUserCookie(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, IOException {
-    Cookie[] cookies = request.getCookies();
-    if (cookies != null) {
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("userID")) {
-                String userID = cookie.getValue();
-                try {
-                    UserDAO userDAO = new UserDAO();
-                    UserDTO user = userDAO.getUserByID(userID);  
-                    if (user != null) {
-                        HttpSession session = request.getSession();
-                        session.setAttribute("LOGIN_USER", user);
-                    } else {
-                        response.sendRedirect("login.jsp");
+
+    private void checkUserCookie(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, IOException {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("userID")) {
+                    String userID = cookie.getValue();
+                    try {
+                        UserDAO userDAO = new UserDAO();
+                        UserDTO user = userDAO.getUserByID(userID);
+                        if (user != null) {
+                            HttpSession session = request.getSession();
+                            session.setAttribute("LOGIN_USER", user);
+                        } else {
+                            response.sendRedirect("login.jsp");
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                    break;
                 }
-                break;
             }
         }
     }
-}
-private String processLogout(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession(false);
-    if (session != null) {
-        session.invalidate();
+
+    private String processLogout(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        Cookie userCookie = new Cookie("userID", "");
+        userCookie.setMaxAge(0);
+        response.addCookie(userCookie);
+
+        return Constants.LOGIN_PAGE;
     }
-
-    Cookie userCookie = new Cookie("userID", "");
-    userCookie.setMaxAge(0);
-    response.addCookie(userCookie);
-
-    return Constants.LOGIN_PAGE;
-}
-
 
     private String processSearch(HttpServletRequest request) throws Exception {
         String searchValue = request.getParameter("searchValue");
         String categoryIDStr = request.getParameter("categoryID");
-        String sortBy = request.getParameter("sortBy");
-        Integer categoryID = null;
+        String priceSort = request.getParameter("priceSort");
 
+        Integer categoryID = null;
         if (categoryIDStr != null && !categoryIDStr.isEmpty()) {
             categoryID = Integer.parseInt(categoryIDStr);
         }
@@ -164,12 +171,13 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
         }
 
         ProductDAO productDao = new ProductDAO();
-        List<ProductDTO> products = productDao.searchProducts(searchValue, categoryID, page, Constants.PRODUCTS_PER_PAGE, sortBy);
+        List<ProductDTO> products = productDao.searchProducts(searchValue, categoryID, page, Constants.PRODUCTS_PER_PAGE, priceSort);
+
         int totalProducts = productDao.countProducts(searchValue, categoryID);
         int totalPages = (int) Math.ceil((double) totalProducts / Constants.PRODUCTS_PER_PAGE);
 
-        CategoryDAO categoryDAO = new CategoryDAO();
-        List<CategoryDTO> categories = categoryDAO.getAllCategories();
+        CategoryDAO categoryDao = new CategoryDAO();
+        List<CategoryDTO> categories = categoryDao.getAllCategories();
 
         request.setAttribute("PRODUCTS", products);
         request.setAttribute("CATEGORIES", categories);
@@ -177,7 +185,44 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
         request.setAttribute("CATEGORY_ID", categoryID);
         request.setAttribute("CURRENT_PAGE", page);
         request.setAttribute("TOTAL_PAGES", totalPages);
-        request.setAttribute("SORT_BY", sortBy);
+        request.setAttribute("PRICE_SORT", priceSort);
+
+        return Constants.SEARCH_PAGE;
+    }
+
+    private String processPriceSort(HttpServletRequest request) throws Exception {
+        String searchValue = request.getParameter("searchValue");
+        String categoryIDStr = request.getParameter("categoryID");
+        String priceSort = request.getParameter("priceSort");
+
+        Integer categoryID = null;
+        if (categoryIDStr != null && !categoryIDStr.isEmpty()) {
+            categoryID = Integer.parseInt(categoryIDStr);
+        }
+
+        int page = 1;
+        String pageStr = request.getParameter("page");
+        if (pageStr != null && !pageStr.isEmpty()) {
+            page = Integer.parseInt(pageStr);
+        }
+
+        ProductDAO productDao = new ProductDAO();
+        List<ProductDTO> products = productDao.searchProducts(searchValue, categoryID, page, Constants.PRODUCTS_PER_PAGE, priceSort);
+
+        int totalProducts = productDao.countProducts(searchValue, categoryID);
+        int totalPages = (int) Math.ceil((double) totalProducts / Constants.PRODUCTS_PER_PAGE);
+
+        CategoryDAO categoryDao = new CategoryDAO();
+        List<CategoryDTO> categories = categoryDao.getAllCategories();
+
+        request.setAttribute("PRODUCTS", products);
+        request.setAttribute("CATEGORIES", categories);
+        request.setAttribute("SEARCH_VALUE", searchValue);
+        request.setAttribute("CATEGORY_ID", categoryID);
+        request.setAttribute("CURRENT_PAGE", page);
+        request.setAttribute("TOTAL_PAGES", totalPages);
+        request.setAttribute("PRICE_SORT", priceSort);
+
         return Constants.SEARCH_PAGE;
     }
 
@@ -501,7 +546,7 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
             request.setAttribute("ERROR", "You must log in to place an order");
             return Constants.LOGIN_PAGE; // hoặc redirect về login
         }
-   
+
         // Get customer information
         String customerName = request.getParameter("customerName");
         String customerEmail = request.getParameter("customerEmail");
@@ -592,28 +637,90 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
         return Constants.ORDER_TRACKING_PAGE;
     }
 
-   @Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+    private String processViewRevenue(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        String jsonResponse = request.getParameter("json"); 
+
+        try {
+            OrderDAO orderDAO = new OrderDAO();
+
+            String selectedDateStr = request.getParameter("selectedDate");
+            java.sql.Date selectedDate = (selectedDateStr != null && !selectedDateStr.isEmpty())
+                    ? java.sql.Date.valueOf(selectedDateStr)
+                    : new java.sql.Date(System.currentTimeMillis());
+
+            double dailyRevenue = orderDAO.getDailyRevenue(selectedDate);
+            double monthlyRevenue = orderDAO.getMonthlyRevenue(selectedDate);
+            double yearlyRevenue = orderDAO.getYearlyRevenue(selectedDate);
+            Map<String, Double> weeklyRevenue = orderDAO.getWeeklyRevenue(selectedDate);
+
+            if ("true".equals(jsonResponse)) {
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+
+                StringBuilder json = new StringBuilder();
+                json.append("{");
+                json.append("\"dayRevenue\":").append(dailyRevenue).append(",");
+                json.append("\"monthRevenue\":").append(monthlyRevenue).append(",");
+                json.append("\"yearRevenue\":").append(yearlyRevenue).append(",");
+                json.append("\"last7Days\":[");
+
+                boolean first = true;
+                for (Map.Entry<String, Double> entry : weeklyRevenue.entrySet()) {
+                    if (!first) {
+                        json.append(",");
+                    }
+                    json.append("{\"date\":\"").append(entry.getKey()).append("\",");
+                    json.append("\"revenue\":").append(entry.getValue()).append("}");
+                    first = false;
+                }
+                json.append("]}");
+
+                response.getWriter().write(json.toString());
+                return null; 
+            }
+
+            request.setAttribute("DAILY_REVENUE", dailyRevenue);
+            request.setAttribute("MONTHLY_REVENUE", monthlyRevenue);
+            request.setAttribute("YEARLY_REVENUE", yearlyRevenue);
+            request.setAttribute("WEEKLY_REVENUE", weeklyRevenue);
+            request.setAttribute("SELECTED_DATE", selectedDateStr);
+
+            return Constants.REVENUE_PAGE;
+        } catch (Exception e) {
+            if ("true".equals(jsonResponse)) {
+                response.setContentType("application/json");
+                response.setCharacterEncoding("UTF-8");
+                response.getWriter().write("{\"error\": \"Không thể lấy dữ liệu doanh thu!\"}");
+                return null;
+            }
+
+            request.setAttribute("ERROR", "Không thể lấy dữ liệu doanh thu!");
+            return Constants.ERROR_PAGE;
+        }
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         try {
             checkUserCookie(request, response);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    processRequest(request, response);
-}
+        processRequest(request, response);
+    }
 
-@Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         try {
             checkUserCookie(request, response);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    processRequest(request, response);
-}
+        processRequest(request, response);
+    }
 
     @Override
     public String getServletInfo() {
