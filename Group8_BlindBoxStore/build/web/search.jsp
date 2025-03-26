@@ -55,20 +55,20 @@
                         </li>
                         <% if (user != null && Constants.ADMIN_ROLE.equals(user.getRole())) { %>
                         <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=Update&action=view">Manage Products</a>
+                            <a class="nav-link" href="MainController?btAction=Update&action=view">Manage Product</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="MainController?btAction=Create&action=view">Add Product</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" href="MainController?btAction=ViewRevenue">
+                                <i class="fas fa-chart-bar"></i> Revenue Report
+                            </a>
                         </li>
                         <% } %>
                         <% if (user != null) { %>
                         <li class="nav-item">
                             <a class="nav-link" href="MainController?btAction=TrackOrder">Track Order</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=ViewRevenue">
-                                <i class="fas fa-chart-bar"></i> View Revenue
-                            </a>
                         </li>
                         <% } %>
                     </ul>
@@ -97,163 +97,158 @@
                                 </li>
                             </ul>
                         </li>
-                        <% }%>
+                        <% } %>
                     </ul>
                 </div>
             </div>
         </nav>
 
-        <!-- Banner Slider -->
-        <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3000">
-            <div class="carousel-inner">
-                <!-- Slide 1 -->
-                <div class="carousel-item active">
-                    <img src="assets/images/BabythreeBanner.jpg" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="Banner 1">
-                </div>
-                <!-- Slide 2 -->
-                <div class="carousel-item">
-                    <img src="assets/images/BabyThreeBanner2.jpg" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="Banner 2">
-                </div>
-            </div>
-            <!-- Controls: Previous and Next Buttons -->
-            <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-            </button>
-            <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-            </button>
-        </div>
-
-
-        <!-- Search Form -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h4>Search Product</h4>
-            </div>
-            <div class="card-body">
-                <form action="MainController" method="GET" class="row g-3">
-                    <div class="col-md-4">
-                        <label for="searchValue" class="form-label">Product Name</label>
-                        <input type="text" class="form-control" id="searchValue" name="searchValue" value="<%= searchValue%>">
-                    </div>
-                    <div class="col-md-3">
-                        <label for="categoryID" class="form-label">Category</label>
-                        <select class="form-select" id="categoryID" name="categoryID">
-                            <option value="">All Categories</option>
-                            <% if (categories != null) {
-                                    for (CategoryDTO category : categories) {%>
-                            <option value="<%= category.getCategoryID()%>" 
-                                    <%= (categoryID != null && categoryID == category.getCategoryID()) ? "selected" : ""%>>
-                                <%= category.getCategoryName()%>
-                            </option>
-                            <%   }
-                                }%>
-                        </select>
-                    </div>
-                    <!-- Sort By -->
-                    <div class="col-md-3">
-                        <label for="sortBy" class="form-label">Sort By</label>
-                        <select class="form-select" id="sortBy" name="sortBy">
-                            <option value="">Default</option>
-                            <option value="priceAsc"  <%= "priceAsc".equals(request.getParameter("sortBy")) ? "selected" : ""%> >
-                                Price (Low -> High)
-                            </option>
-                            <option value="priceDesc" <%= "priceDesc".equals(request.getParameter("sortBy")) ? "selected" : ""%> >
-                                Price (High -> Low)
-                            </option>
-                            <option value="nameAsc"   <%= "nameAsc".equals(request.getParameter("sortBy")) ? "selected" : ""%> >
-                                Name (A -> Z)
-                            </option>
-                            <option value="nameDesc"  <%= "nameDesc".equals(request.getParameter("sortBy")) ? "selected" : ""%> >
-                                Name (Z -> A)
-                            </option>
-                        </select>
-                    </div>
-                    <div class="col-md-2 d-flex align-items-end">
-                        <button type="submit" class="btn btn-primary w-100" name="btAction" value="Search">Search</button>
-                    </div>
-                </form>
+        <!-- Banner -->
+        <div class="container-fluid p-0 m-0 d-flex justify-content-center">
+            <div class="banner position-relative" style="object-fit: cover; height: 50vh; margin: 0; padding: 0;">
+                <img src="assets/images/BabythreeBanner.jpg" alt="Baby Three Banner" style="width: 100%; height: 100%; object-fit: cover; display: block;">
             </div>
         </div>
-
-
-        <!-- Product List -->
-        <div class="row product">
-            <% String part = "assets/images/"; %>
-            <% if (products != null && !products.isEmpty()) {
-                    for (ProductDTO product : products) {%>
-            <div class="col-md-3 mb-4">
-                <div class="card h-100">
-                    <img src="<%= product.getImageUrl()%>" class="card-img-top" alt="<%= product.getProductName()%>" style="height: 200px; object-fit: cover;"> 
-
-                    <div class="card-body">
-                        <h5 class="card-title"><%= product.getProductName()%></h5>
-                        <p class="card-text text-muted">By <%= product.getSeries()%></p>
-                        <p class="card-text"><small><%= product.getCategoryName()%></small></p>
-                        <p class="card-text"><%= product.getDescription().length() > 100 ? product.getDescription().substring(0, 100) + "..." : product.getDescription()%></p>
-                        <h6 class="card-subtitle mb-2 text-primary">$<%= String.format("%.2f", product.getPrice())%></h6>
-                        <% if (product.getQuantity() > 0) { %>
-                        <p class="card-text text-success">In Stock</p>
-                        <% } else { %>
-                        <p class="card-text text-danger">Out of Stock</p>
-                        <% } %>
-                    </div>
-                    <div class="card-footer">
-                        <% if (product.getQuantity() > 0 && (user == null || !Constants.ADMIN_ROLE.equals(user.getRole()))) {%>
-                        <form action="MainController" method="POST">
-                            <input type="hidden" name="productID" value="<%= product.getProductID()%>">
-                            <button type="submit" class="btn btn-primary w-100 button-add-to-cart" name="btAction" value="AddToCart">
-                                <i class="fas fa-cart-plus"></i> Add to Cart
-                            </button>
-                        </form>
-                        <% } else if (user != null && Constants.ADMIN_ROLE.equals(user.getRole())) {%>
-                        <a href="MainController?btAction=Update&action=edit&productID=<%= product.getProductID()%>" class="btn btn-warning w-100">
-                            <i class="fas fa-edit"></i> Edit
-                        </a>
-                        <% } %>
-                    </div>
-                </div>
-            </div>
-            <% }
-            } else { %>
-            <div class="col-12">
-                <div class="alert alert-info" role="alert">
-                    No product found.
-                </div>
+        <!-- Main Content -->
+        <div class="container mt-4">
+            <% if (request.getAttribute("SUCCESS") != null) {%>
+            <div class="alert alert-success" role="alert">
+                <%= request.getAttribute("SUCCESS")%>
             </div>
             <% } %>
+            <% if (request.getAttribute("ERROR") != null) {%>
+            <div class="alert alert-danger" role="alert">
+                <%= request.getAttribute("ERROR")%>
+            </div>
+            <% }%>
+
+            <!-- Search Form -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4 class="form-label-title">Search Product</h4>
+                </div>
+                <div class="card-body">
+                    <form action="MainController" method="GET" class="row g-3">
+                        <div class="col-md-4">
+                            <label for="searchValue" class="form-label">Product Name</label>
+                            <input type="text" class="form-control" id="searchValue" name="searchValue" value="<%= searchValue%>">
+                        </div>
+                        <div class="col-md-3">
+                            <label for="categoryID" class="form-label">Category</label>
+                            <select class="form-select" id="categoryID" name="categoryID">
+                                <option  value="">All Categories</option>
+                                <% if (categories != null) {
+                            for (CategoryDTO category : categories) {%>
+                                <option value="<%= category.getCategoryID()%>" 
+                                        <%= (categoryID != null && categoryID == category.getCategoryID()) ? "selected" : ""%>>
+                                    <%= category.getCategoryName()%>
+                                </option>
+                                <%   }
+                        }%>
+                            </select>
+                        </div>
+                        <!-- Sort By -->
+                        <div class="col-md-3">
+                            <label for="sortBy" class="form-label">Sort By</label>
+                            <select class="form-select" id="sortBy" name="sortBy">
+                                <option value="">Default</option>
+                                <option value="priceAsc"  <%= "priceAsc".equals(request.getParameter("sortBy")) ? "selected" : ""%> >
+                                    Price (Low -> High)
+                                </option>
+                                <option value="priceDesc" <%= "priceDesc".equals(request.getParameter("sortBy")) ? "selected" : ""%> >
+                                    Price (High -> Low)
+                                </option>
+                                <option value="nameAsc"   <%= "nameAsc".equals(request.getParameter("sortBy")) ? "selected" : ""%> >
+                                    Name (A -> Z)
+                                </option>
+                                <option value="nameDesc"  <%= "nameDesc".equals(request.getParameter("sortBy")) ? "selected" : ""%> >
+                                    Name (Z -> A)
+                                </option>
+                            </select>
+                        </div>
+                        <div class="col-md-2 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary w-100" name="btAction" value="Search">Search</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+
+            <!-- Product List -->
+            <div class="row product">
+                <% String part = "assets/images/"; %>
+                <% if (products != null && !products.isEmpty()) {
+                        for (ProductDTO product : products) {%>
+                <div class="col-md-3 mb-4">
+                    <div class="card h-100">
+                        <img src="<%= product.getImageUrl()%>" class="card-img-top" alt="<%= product.getProductName()%>" style="height: 200px; object-fit: cover;"> 
+
+                        <div class="card-body">
+                            <h5 class="card-title"><%= product.getProductName()%></h5>
+                            <p class="card-text text-muted">By <%= product.getSeries()%></p>
+                            <p class="card-text"><small><%= product.getCategoryName()%></small></p>
+                            <p class="card-text"><%= product.getDescription().length() > 100 ? product.getDescription().substring(0, 100) + "..." : product.getDescription()%></p>
+                            <h6 class="card-subtitle mb-2 text-primary">$<%= String.format("%.2f", product.getPrice())%></h6>
+                            <% if (product.getQuantity() > 0) { %>
+                            <p class="card-text text-success">In Stock</p>
+                            <% } else { %>
+                            <p class="card-text text-danger">Out of Stock</p>
+                            <% } %>
+                        </div>
+                        <div class="card-footer">
+                            <% if (product.getQuantity() > 0 && (user == null || !Constants.ADMIN_ROLE.equals(user.getRole()))) {%>
+                            <form action="MainController" method="POST">
+                                <input type="hidden" name="productID" value="<%= product.getProductID()%>">
+                                <button type="submit" class="btn btn-primary w-100 button-add-to-cart" name="btAction" value="AddToCart">
+                                    <i class="fas fa-cart-plus"></i> Add to Cart
+                                </button>
+                            </form>
+                            <% } else if (user != null && Constants.ADMIN_ROLE.equals(user.getRole())) {%>
+                            <a href="MainController?btAction=Update&action=edit&productID=<%= product.getProductID()%>" class="btn btn-warning w-100">
+                                <i class="fas fa-edit"></i> Edit
+                            </a>
+                            <% } %>
+                        </div>
+                    </div>
+                </div>
+                <% }
+                } else { %>
+                <div class="col-12">
+                    <div class="alert alert-info" role="alert">
+                        No product found.
+                    </div>
+                </div>
+                <% } %>
+            </div>
+
+            <!-- Pagination -->
+            <% if (totalPages > 1) {%>
+            <nav aria-label="Page navigation" class="mt-4">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item <%= currentPage == 1 ? "disabled" : ""%>">
+                        <a class="page-link" href="MainController?btAction=Search&searchValue=<%= searchValue%>&categoryID=<%= categoryID != null ? categoryID : ""%>&page=<%= currentPage - 1%>">Previous</a>
+                    </li>
+                    <% for (int i = 1; i <= totalPages; i++) {%>
+                    <li class="page-item <%= i == currentPage ? "active" : ""%>">
+                        <a class="page-link" href="MainController?btAction=Search&searchValue=<%= searchValue%>&categoryID=<%= categoryID != null ? categoryID : ""%>&page=<%= i%>"><%= i%></a>
+                    </li>
+                    <% }%>
+                    <li class="page-item <%= currentPage == totalPages ? "disabled" : ""%>">
+                        <a class="page-link" href="MainController?btAction=Search&searchValue=<%= searchValue%>&categoryID=<%= categoryID != null ? categoryID : ""%>&page=<%= currentPage + 1%>">Next</a>
+                    </li>
+                </ul>
+            </nav>
+            <% }%>
         </div>
 
-        <!-- Pagination -->
-        <% if (totalPages > 1) {%>
-        <nav aria-label="Page navigation" class="mt-4">
-            <ul class="pagination justify-content-center">
-                <li class="page-item <%= currentPage == 1 ? "disabled" : ""%>">
-                    <a class="page-link" href="MainController?btAction=Search&searchValue=<%= searchValue%>&categoryID=<%= categoryID != null ? categoryID : ""%>&page=<%= currentPage - 1%>">Previous</a>
-                </li>
-                <% for (int i = 1; i <= totalPages; i++) {%>
-                <li class="page-item <%= i == currentPage ? "active" : ""%>">
-                    <a class="page-link" href="MainController?btAction=Search&searchValue=<%= searchValue%>&categoryID=<%= categoryID != null ? categoryID : ""%>&page=<%= i%>"><%= i%></a>
-                </li>
-                <% }%>
-                <li class="page-item <%= currentPage == totalPages ? "disabled" : ""%>">
-                    <a class="page-link" href="MainController?btAction=Search&searchValue=<%= searchValue%>&categoryID=<%= categoryID != null ? categoryID : ""%>&page=<%= currentPage + 1%>">Next</a>
-                </li>
-            </ul>
-        </nav>
-        <% }%>
-    </div>
+        <!-- Footer -->
+        <footer class="bg-dark text-white mt-5 py-3">
+            <div class="container text-center">
+                <p>&copy; 2025 BlindBoxstore. All rights reserved.</p>
+            </div>
+        </footer>
 
-    <!-- Footer -->
-    <footer class="bg-dark text-white mt-5 py-3">
-        <div class="container text-center">
-            <p>&copy; 2025 BlindBoxstore. All rights reserved.</p>
-        </div>
-    </footer>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-</body>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    </body>
 </html>
 

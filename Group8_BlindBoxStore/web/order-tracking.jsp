@@ -35,16 +35,16 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
                             </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" href="MainController?btAction=ViewRevenue">
+                                    <i class="fas fa-chart-bar"></i> Revenue Report
+                                </a>
+                            </li>
                         </c:if>
                         <c:if test="${sessionScope.LOGIN_USER != null}">
                             <li class="nav-item">
                                 <a class="nav-link active" href="MainController?btAction=TrackOrder">Track Order</a>
                             </li>
-                            <li class="nav-item">
-                            <a class="nav-link active" href="MainController?btAction=ViewRevenue">
-                                <i class="fas fa-chart-bar"></i> Revenue Report
-                            </a>
-                        </li>
                         </c:if>
                     </ul>
                     <ul class="navbar-nav">
@@ -69,7 +69,7 @@
             </div>
         </nav>
 
-<!-- Main Content -->
+        <!-- Main Content -->
         <div class="container mt-4">
             <c:if test="${not empty requestScope.ERROR}">
                 <div class="alert alert-danger" role="alert">
@@ -87,8 +87,8 @@
                     </form>
                 </div>
             </div>
-                        
-                        
+
+
             <div class="container mt-4">
                 <div class="card mb-4">
                     <div class="card-header bg-warning text-dark"">
@@ -136,7 +136,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Footer -->
         <footer class="bg-dark text-white mt-5 py-3">
             <div class="container text-center">

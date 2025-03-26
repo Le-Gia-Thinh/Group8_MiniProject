@@ -7,19 +7,37 @@ and open the template in the editor.
     Created on : Mar 24, 2025, 7:32:56 AM
     Author     : Legiathinh
 */
+@font-face{
+    font-family: 'font1';
+    src: url(../assets/font/1FTV-VIP-Yesteryear.ttf);
+}
+@font-face{
+    font-family: 'font2';
+    src: url(../assets/font/MJ-HolidayMaria-Regular-1.ttf);
+}
+@font-face{
+    font-family: 'font3';
+    src: url(../assets/font/TF-Fish-Catcher-atzeev.otf);
+}
+
 body {
     background-color: #EEE0E5; 
     margin: 0;
     padding: 0;
 }
 .navbar {
+   font-family: 'font1', sans-serif;
     background-color: palevioletred; 
+    font-size: 20px ;
 }
 .navbar-brand,
 .nav-link {
     color: #FCEAB3 !important;
 }
-
+.navbar-brand{
+    font-size: 3rem !important;
+    color : #B0E0E6 !important;
+}
 .nav-link:hover {
     color: #B0E0E6 !important; 
 }
@@ -29,6 +47,7 @@ body {
 }
 
 .card {
+   
     border: none;
     border-radius: 10px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
@@ -36,7 +55,14 @@ body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
+.form-label-title {
+    font-family: 'font3', sans-serif !important ;
+    font-size: 3.5rem;
+}
+.form-label{
+     font-family: 'font2', sans-serif !important ;
+     font-size: 2.5rem;
+}
 .card:hover {
     transform: translateY(-5px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);

@@ -9,14 +9,9 @@ import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.*;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 import model.dao.*;
 import model.dto.*;
 import model.utils.Constants;
-//import model.utils.LoginGoogleHandler;
 
 @WebServlet(name = "MainController", urlPatterns = {"/MainController"})
 @MultipartConfig(
@@ -24,7 +19,6 @@ import model.utils.Constants;
         maxFileSize = 1024 * 1024 * 10, // 10 MB
         maxRequestSize = 1024 * 1024 * 50 // 50 MB
 )
-
 public class MainController extends HttpServlet {
 
     private static final String REGISTER_PAGE = "Create_Page";
@@ -94,7 +88,9 @@ public class MainController extends HttpServlet {
             request.setAttribute("ERROR", e.getMessage());
             url = Constants.ERROR_PAGE;
         } finally {
-            request.getRequestDispatcher(url).forward(request, response);  // Always forward to the correct page
+            if (url != null) {
+                request.getRequestDispatcher(url).forward(request, response);
+            }
         }
     }
 
@@ -113,7 +109,7 @@ public class MainController extends HttpServlet {
                 Cookie userCookie = new Cookie("userID", user.getUserID());
                 userCookie.setMaxAge(60 * 60 * 7200);
                 response.addCookie(userCookie);
-
+                processSearch(request);
                 url = Constants.SEARCH_PAGE;
             } else {
                 request.setAttribute("ERROR", "Invalid UserID or Password");
@@ -249,7 +245,6 @@ public class MainController extends HttpServlet {
         String action = request.getParameter("action");
 
         if ("view".equals(action)) {
-            // Load products for update page - MODIFIED TO SHOW ALL PRODUCTS
             ProductDAO productDao = new ProductDAO();
             int page = 1;
             String pageStr = request.getParameter("page");
@@ -257,7 +252,6 @@ public class MainController extends HttpServlet {
                 page = Integer.parseInt(pageStr);
             }
 
-            // Use the new method to get all products including inactive ones
             List<ProductDTO> products = productDao.getAllProductsForAdmin(page, Constants.PRODUCTS_PER_PAGE);
             int productsTotal = productDao.countAllProductsForAdmin();
             int totalPages = (int) Math.ceil((double) productsTotal / Constants.PRODUCTS_PER_PAGE);
@@ -270,7 +264,6 @@ public class MainController extends HttpServlet {
             request.setAttribute("CURRENT_PAGE", page);
             request.setAttribute("TOTAL_PAGES", totalPages);
         } else if ("edit".equals(action)) {
-            // Load product details for editing
             int productID = Integer.parseInt(request.getParameter("productID"));
 
             ProductDAO productDAO = new ProductDAO();
@@ -282,7 +275,6 @@ public class MainController extends HttpServlet {
             request.setAttribute("PRODUCT", product);
             request.setAttribute("CATEGORIES", categories);
         } else if ("update".equals(action)) {
-            // Process product update
             int productID = Integer.parseInt(request.getParameter("productID"));
             String productName = request.getParameter("productName");
             String series = request.getParameter("series");
@@ -292,13 +284,11 @@ public class MainController extends HttpServlet {
             int categoryID = Integer.parseInt(request.getParameter("categoryID"));
             boolean status = "on".equals(request.getParameter("status"));
 
-            // Handle image upload
             String imageUrl = request.getParameter("currentImageUrl");
             Part filePart = request.getPart("imageFile");
             if (filePart != null && filePart.getSize() > 0) {
                 String fileName = getFileName(filePart);
                 if (fileName != null && !fileName.isEmpty()) {
-                    // Save the file to the server
                     String uploadPath = getServletContext().getRealPath("/assets/images/");
                     filePart.write(uploadPath + fileName);
                     imageUrl = "assets/images/" + fileName;
@@ -326,7 +316,6 @@ public class MainController extends HttpServlet {
                 request.setAttribute("ERROR", "Failed to update product");
             }
 
-            // Redirect to view all products
             url = "MainController?btAction=" + Constants.UPDATE_ACTION + "&action=view";
         }
 
@@ -351,13 +340,11 @@ public class MainController extends HttpServlet {
         String action = request.getParameter("action");
 
         if ("view".equals(action)) {
-            // Load categories for create page
             CategoryDAO categoryDAO = new CategoryDAO();
             List<CategoryDTO> categories = categoryDAO.getAllCategories();
 
             request.setAttribute("CATEGORIES", categories);
         } else if ("create".equals(action)) {
-            // Process product creation
             String productName = request.getParameter("productName");
             String series = request.getParameter("series");
             String description = request.getParameter("description");
@@ -365,13 +352,11 @@ public class MainController extends HttpServlet {
             int quantity = Integer.parseInt(request.getParameter("quantity"));
             int categoryID = Integer.parseInt(request.getParameter("categoryID"));
 
-            // Handle image upload
-            String imageUrl = "assets/images/default-product.jpg"; // Default image
+            String imageUrl = "assets/images/default-product.jpg";
             Part filePart = request.getPart("imageFile");
             if (filePart != null && filePart.getSize() > 0) {
                 String fileName = getFileName(filePart);
                 if (fileName != null && !fileName.isEmpty()) {
-                    // Save the file to the server
                     String uploadPath = getServletContext().getRealPath("/assets/images/");
                     filePart.write(uploadPath + fileName);
                     imageUrl = "assets/images/" + fileName;
@@ -387,14 +372,13 @@ public class MainController extends HttpServlet {
             product.setImageUrl(imageUrl);
             product.setCategoryID(categoryID);
             product.setLastUpdateUser(user.getUserID());
-            product.setStatus(true); // Default status is active
+            product.setStatus(true);
 
             ProductDAO productDAO = new ProductDAO();
             boolean created = productDAO.createProduct(product);
 
             if (created) {
                 request.setAttribute("SUCCESS", "Product created successfully");
-                // Load categories for create page
                 CategoryDAO categoryDAO = new CategoryDAO();
                 List<CategoryDTO> categories = categoryDAO.getAllCategories();
                 request.setAttribute("CATEGORIES", categories);
@@ -420,7 +404,6 @@ public class MainController extends HttpServlet {
     private String processAddToCart(HttpServletRequest request) throws Exception {
         HttpSession session = request.getSession();
 
-        // Get the cart from session or create a new one
         Map<Integer, OrderDetailDTO> cart = (Map<Integer, OrderDetailDTO>) session.getAttribute("CART");
         if (cart == null) {
             cart = new HashMap<>();
@@ -428,12 +411,10 @@ public class MainController extends HttpServlet {
 
         int productID = Integer.parseInt(request.getParameter("productID"));
 
-        // Get product details
         ProductDAO productDao = new ProductDAO();
         ProductDTO product = productDao.getProductID(productID);
 
         if (product != null && product.isStatus() && product.getQuantity() > 0) {
-            // Check if product already in cart
             if (cart.containsKey(productID)) {
                 OrderDetailDTO item = cart.get(productID);
                 item.setQuantity(item.getQuantity() + 1);
@@ -447,9 +428,9 @@ public class MainController extends HttpServlet {
             }
 
             session.setAttribute("CART", cart);
-            request.setAttribute("SUCCESS", "product added to cart");
+            request.setAttribute("SUCCESS", "Product added to cart");
         } else {
-            request.setAttribute("ERROR", "product not available");
+            request.setAttribute("ERROR", "Product not available");
         }
 
         return processSearch(request);
@@ -512,7 +493,6 @@ public class MainController extends HttpServlet {
             return Constants.CART_PAGE;
         }
 
-        // Pre-fill user information if logged in
         UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
         if (user != null) {
             request.setAttribute("USER_INFO", user);
@@ -534,13 +514,11 @@ public class MainController extends HttpServlet {
             return Constants.CART_PAGE;
         }
 
-        // Get user information
         String userID = null;
         UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
         if (user != null) {
             userID = user.getUserID();
 
-            // Admin cannot place orders
             if (Constants.ADMIN_ROLE.equals(user.getRole())) {
                 request.setAttribute("ERROR", "Admin cannot place orders");
                 return Constants.CART_PAGE;
@@ -549,11 +527,9 @@ public class MainController extends HttpServlet {
 
         if (userID == null) {
             request.setAttribute("ERROR", "You must log in to place an order");
-            return Constants.LOGIN_PAGE; // hoặc redirect về login
+            return Constants.LOGIN_PAGE;
         }
 
-
-        // Get customer information
         String customerName = request.getParameter("customerName");
         String customerEmail = request.getParameter("customerEmail");
         String customerPhone = request.getParameter("customerPhone");
@@ -568,14 +544,12 @@ public class MainController extends HttpServlet {
             return Constants.CART_PAGE;
         }
 
-        // Calculate total amount
         double totalAmount = 0;
         List<OrderDetailDTO> orderDetails = new ArrayList<>(cart.values());
         for (OrderDetailDTO detail : orderDetails) {
             totalAmount += detail.getTotal();
         }
 
-        // Create order
         OrderDTO order = new OrderDTO();
         order.setUserID(userID);
         order.setTotalAmount(totalAmount);
@@ -591,17 +565,11 @@ public class MainController extends HttpServlet {
         int orderID = orderDAO.createOrder(order);
 
         if (orderID > 0) {
-            // Clear cart
             session.removeAttribute("CART");
-
-            // Set order ID for confirmation
             request.setAttribute("ORDER_ID", orderID);
             request.setAttribute("SUCCESS", "Order placed successfully. Your order ID is " + orderID);
 
-            // If payment method is PayPal, redirect to PayPal
             if ("PAYPAL".equals(paymentMethod)) {
-                // Implement PayPal integration here
-                // For now, just update payment status
                 orderDAO.updatePaymentStatus(orderID, "COMPLETED");
             }
         } else {
@@ -612,35 +580,29 @@ public class MainController extends HttpServlet {
     }
 
     private String processTrackOrder(HttpServletRequest request) throws Exception {
-        // Lấy thông tin session và user
         HttpSession session = request.getSession(false);
         UserDTO user = (UserDTO) (session != null ? session.getAttribute("LOGIN_USER") : null);
 
         OrderDAO orderDAO = new OrderDAO();
         List<OrderDTO> orders;
 
-        // Kiểm tra nếu user đăng nhập
         if (user != null) {
-            // Nếu là admin thì hiển thị toàn bộ đơn hàng
             if (Constants.ADMIN_ROLE.equals(user.getRole())) {
                 orders = orderDAO.getAllOrders();
             } else {
-                // Nếu là user thông thường thì chỉ hiển thị đơn hàng của user đó
                 orders = orderDAO.getOrdersByUserID(user.getUserID());
             }
         } else {
-            // Nếu không đăng nhập thì không hiển thị gì
             orders = new ArrayList<>();
         }
 
-        // Đưa danh sách đơn hàng vào request
         request.setAttribute("USER_ORDERS", orders);
 
         return Constants.ORDER_TRACKING_PAGE;
     }
 
     private String processViewRevenue(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        String jsonResponse = request.getParameter("json"); 
+        String jsonResponse = request.getParameter("json");
 
         try {
             OrderDAO orderDAO = new OrderDAO();
@@ -678,7 +640,7 @@ public class MainController extends HttpServlet {
                 json.append("]}");
 
                 response.getWriter().write(json.toString());
-                return null; 
+                return null;
             }
 
             request.setAttribute("DAILY_REVENUE", dailyRevenue);
@@ -700,6 +662,7 @@ public class MainController extends HttpServlet {
             return Constants.ERROR_PAGE;
         }
     }
+
     private String processViewOrderDetail(HttpServletRequest request) throws Exception {
         String orderIDParam = request.getParameter("orderID");
 

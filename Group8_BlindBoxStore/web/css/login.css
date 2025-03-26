@@ -7,6 +7,10 @@ and open the template in the editor.
     Created on : Mar 21, 2025, 4:52:30 PM
     Author     : Legiathinh
 */
+@font-face{
+    font-family: 1;
+    scr: url(../assets/font/1FTV-VIP-Yesteryear.ttf);
+}
 .Back-home {
     border: 2px solid white;
     border-radius: 15px;
