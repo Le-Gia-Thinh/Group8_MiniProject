@@ -38,6 +38,9 @@
                             <a class="nav-link" href="MainController?btAction=Create&action=view">Add Product</a>
                         </li>
                         <li class="nav-item">
+                                <a class="nav-link" href="MainController?btAction=TrackOrder">Track Order</a>
+                            </li>
+                        <li class="nav-item">
                             <a class="nav-link active" href="MainController?btAction=ViewRevenue">
                                 <i class="fas fa-chart-bar"></i> Revenue Report
                             </a>

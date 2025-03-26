@@ -83,6 +83,11 @@ public class MainController extends HttpServlet {
                 url = processTrackOrder(request);
             } else if (action.equals(Constants.REVENUE_ACTION)) {
                 url = processViewRevenue(request, response);
+            } else if (action.equals(Constants.VIEW_ORDER_DATAIL)) {
+                url = processViewOrderDetail(request);
+            } else {
+                request.setAttribute("ERROR", "Action not supported");
+                url = Constants.ERROR_PAGE;
             }
         } catch (Exception e) {
             log("Error at MainController: " + e.toString());
@@ -547,6 +552,7 @@ public class MainController extends HttpServlet {
             return Constants.LOGIN_PAGE; // hoặc redirect về login
         }
 
+
         // Get customer information
         String customerName = request.getParameter("customerName");
         String customerEmail = request.getParameter("customerEmail");
@@ -606,33 +612,29 @@ public class MainController extends HttpServlet {
     }
 
     private String processTrackOrder(HttpServletRequest request) throws Exception {
+        // Lấy thông tin session và user
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("LOGIN_USER") == null) {
-            request.setAttribute("ERROR", "Please login to track your order");
-            return Constants.LOGIN_PAGE;
-        }
+        UserDTO user = (UserDTO) (session != null ? session.getAttribute("LOGIN_USER") : null);
 
-        String orderIDStr = request.getParameter("orderID");
-        if (orderIDStr != null && !orderIDStr.trim().isEmpty()) {
-            int orderID = Integer.parseInt(orderIDStr);
+        OrderDAO orderDAO = new OrderDAO();
+        List<OrderDTO> orders;
 
-            OrderDAO orderDAO = new OrderDAO();
-            OrderDTO order = orderDAO.getOrderByID(orderID);
-
-            if (order != null) {
-                UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
-
-                // Check if order belongs to user or user is admin
-                if (order.getUserID() != null && order.getUserID().equals(user.getUserID())
-                        || Constants.ADMIN_ROLE.equals(user.getRole())) {
-                    request.setAttribute("ORDER", order);
-                } else {
-                    request.setAttribute("ERROR", "Order not found");
-                }
+        // Kiểm tra nếu user đăng nhập
+        if (user != null) {
+            // Nếu là admin thì hiển thị toàn bộ đơn hàng
+            if (Constants.ADMIN_ROLE.equals(user.getRole())) {
+                orders = orderDAO.getAllOrders();
             } else {
-                request.setAttribute("ERROR", "Order not found");
+                // Nếu là user thông thường thì chỉ hiển thị đơn hàng của user đó
+                orders = orderDAO.getOrdersByUserID(user.getUserID());
             }
+        } else {
+            // Nếu không đăng nhập thì không hiển thị gì
+            orders = new ArrayList<>();
         }
+
+        // Đưa danh sách đơn hàng vào request
+        request.setAttribute("USER_ORDERS", orders);
 
         return Constants.ORDER_TRACKING_PAGE;
     }
@@ -697,6 +699,21 @@ public class MainController extends HttpServlet {
             request.setAttribute("ERROR", "Không thể lấy dữ liệu doanh thu!");
             return Constants.ERROR_PAGE;
         }
+    }
+    private String processViewOrderDetail(HttpServletRequest request) throws Exception {
+        String orderIDParam = request.getParameter("orderID");
+
+        if (orderIDParam != null && !orderIDParam.trim().isEmpty()) {
+            int orderID = Integer.parseInt(orderIDParam);
+            OrderDAO orderDAO = new OrderDAO();
+            OrderDTO order = orderDAO.getOrderByID(orderID);
+
+            if (order != null) {
+                request.setAttribute("ORDER", order);
+                return "orderDetail.jsp";
+            }
+        }
+        return Constants.ORDER_TRACKING_PAGE;
     }
 
     @Override

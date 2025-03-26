@@ -22,6 +22,7 @@
         crossorigin="anonymous"></script>
         <script src="https://kit.fontawesome.com/2b9cdc1c9a.js" crossorigin="anonymous"></script>
         <link href="./css/style.css" rel="stylesheet"/>
+        <link href="./css/search.css" rel="stylesheet">
         <title>BlindBox_Store</title>
         <style>
             .nav-hover .nav-link:hover {
@@ -56,9 +57,9 @@
         </style>
     </head>
     <body>
-         <%
+        <%
             UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
-            %>
+        %>
         <c:if test="${sessionScope.LOGIN_USER == null || sessionScope.LOGIN_USER.role ne 'USER'} ">
             <c:redirect url="login.jsp"></c:redirect>
         </c:if>
@@ -79,120 +80,120 @@
                                     <li class="p-2 d-none d-md-block"><a href="MainController?btAction=Register"><button class="btn px-4 btn-success">Sign Up</button></a></li>
                                 </ul>
                             </c:if>                    
-                </div>
-            </div>
-    
- <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container">
-        <a class="navbar-brand" href="MainController?btAction=Search">BlindBoxStore</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="MainController?btAction=Search">Home</a>
-                </li>
-                <% if (user != null && Constants.ADMIN_ROLE.equals(user.getRole())) { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
-                </li>
-                <% } %>
-                <% if (user != null && !Constants.ADMIN_ROLE.equals(user.getRole())) { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="MainController?btAction=TrackOrder">Track Order</a>
-                </li>
-                <% } %>
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="MainController?btAction=ViewCart">
-                        <i class="fas fa-shopping-cart"></i> Cart
-                    </a>
-                </li>
-            </ul>
-        </div>
-    </div>
-</nav>
+                        </div>
+                    </div>
+
+                    <nav class="navbar navbar-expand-lg navbar-dark">
+                        <div class="container">
+                            <a class="navbar-brand" href="MainController?btAction=Search">BlindBoxStore</a>
+                            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                                <span class="navbar-toggler-icon"></span>
+                            </button>
+                            <div class="collapse navbar-collapse" id="navbarNav">
+                                <ul class="navbar-nav me-auto">
+                                    <li class="nav-item">
+                                        <a class="nav-link active" href="MainController?btAction=Search">Home</a>
+                                    </li>
+                                    <% if (user != null && Constants.ADMIN_ROLE.equals(user.getRole())) { %>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
+                                    </li>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
+                                    </li>
+                                    <% } %>
+                                    <% if (user != null && !Constants.ADMIN_ROLE.equals(user.getRole())) { %>
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="MainController?btAction=TrackOrder">Track Order</a>
+                                    </li>
+                                    <% }%>
+                                </ul>
+                                <ul class="navbar-nav">
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="MainController?btAction=ViewCart">
+                                            <i class="fas fa-shopping-cart"></i> Cart
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
 
 
-<section style="background-color: #eee;">
-    <div class="row p-4">
-        <div class="col-lg-4">
-            <div class="card mb-4 pb-5">
-                <div class="card-body text-center">
-                    <img src="https://s.net.vn/m4lC" alt="avatar"
-                         class="rounded-circle img-fluid" style="width: 150px;">
-                    <h5 class="my-3">${sessionScope.LOGIN_USER.fullName}</h5>
-                    <p class="text-muted mb-1">@${sessionScope.LOGIN_USER.userID}</p>
-                    <p class="text-muted mb-4">${sessionScope.LOGIN_USER.address}</p>
-                </div>
-            </div>
-        </div>
-        <div class="col-lg-8">
-            <div class="card mb-4 pb-1">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Full Name</p>
+                    <section style="background-color: #eee;">
+                        <div class="row p-4">
+                            <div class="col-lg-4">
+                                <div class="card mb-4 pb-5">
+                                    <div class="card-body text-center">
+                                        <img src="https://s.net.vn/m4lC" alt="avatar"
+                                             class="rounded-circle img-fluid" style="width: 150px;">
+                                        <h5 class="my-3">${sessionScope.LOGIN_USER.fullName}</h5>
+                                        <p class="text-muted mb-1">@${sessionScope.LOGIN_USER.userID}</p>
+                                        <p class="text-muted mb-4">${sessionScope.LOGIN_USER.address}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-8">
+                                <div class="card mb-4 pb-1">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Full Name</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">${sessionScope.LOGIN_USER.fullName}</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Email</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">${sessionScope.LOGIN_USER.email}</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Role</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">${sessionScope.LOGIN_USER.role}</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Phone</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">${sessionScope.LOGIN_USER.phone}</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                        <div class="row">
+                                            <div class="col-sm-3">
+                                                <p class="mb-0">Address</p>
+                                            </div>
+                                            <div class="col-sm-9">
+                                                <p class="text-muted mb-0">${sessionScope.LOGIN_USER.address}</p>
+                                            </div>
+                                        </div>
+                                        <hr>
+                                    </div>
+                                </div>
+                            </div>
+                    </section>
+                    <!-- Footer -->
+                    <footer class="bg-dark text-white mt-5 py-3">
+                        <div class="container text-center">
+                            <p>&copy; 2025 BlindBoxstore. All rights reserved.</p>
                         </div>
-                        <div class="col-sm-9">
-                            <p class="text-muted mb-0">${sessionScope.LOGIN_USER.fullName}</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Email</p>
-                        </div>
-                        <div class="col-sm-9">
-                            <p class="text-muted mb-0">${sessionScope.LOGIN_USER.email}</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Role</p>
-                        </div>
-                        <div class="col-sm-9">
-                            <p class="text-muted mb-0">${sessionScope.LOGIN_USER.role}</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Phone</p>
-                        </div>
-                        <div class="col-sm-9">
-                            <p class="text-muted mb-0">${sessionScope.LOGIN_USER.phone}</p>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col-sm-3">
-                            <p class="mb-0">Address</p>
-                        </div>
-                        <div class="col-sm-9">
-                            <p class="text-muted mb-0">${sessionScope.LOGIN_USER.address}</p>
-                        </div>
-                    </div>
-                    <hr>
-                </div>
-            </div>
-        </div>
-</section>
-  <!-- Footer -->
-        <footer class="bg-dark text-white mt-5 py-3">
-            <div class="container text-center">
-                <p>&copy; 2025 BlindBoxstore. All rights reserved.</p>
-            </div>
-        </footer>
+                    </footer>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-      <!-- Footer -->    
-        
-    </body>
-</html>
+                    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+                    <!-- Footer -->    
+
+                    </body>
+                    </html>

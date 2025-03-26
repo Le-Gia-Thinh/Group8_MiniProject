@@ -19,6 +19,7 @@ public class Constants {
     public static final String PRICE_SORT = "PriceSort";
     public static final String REVENUE_ACTION = "ViewRevenue";
     
+     public static final String VIEW_ORDER_DATAIL = "ViewOrderDetail";
     // Pages
     public static final String LOGIN_PAGE = "login.jsp";
     public static final String SEARCH_PAGE = "search.jsp";

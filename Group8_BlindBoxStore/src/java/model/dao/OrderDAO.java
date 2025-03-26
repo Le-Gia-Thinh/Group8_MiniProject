@@ -387,4 +387,54 @@ public class OrderDAO {
             e.printStackTrace();
         }
     }
+    public List<OrderDTO> getAllOrders() throws SQLException, ClassNotFoundException {
+        List<OrderDTO> orders = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement stm = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            String sql = "SELECT orderID, userID, orderDate, totalAmount, customerName, "
+                    + "customerEmail, customerPhone, customerAddress, paymentMethod, paymentStatus, orderStatus "
+                    + "FROM Orders "
+                    + "ORDER BY orderDate DESC";
+            stm = conn.prepareStatement(sql);
+            rs = stm.executeQuery();
+            while (rs.next()) {
+                int orderID = rs.getInt("orderID");
+                String userID = rs.getString("userID");
+                Date orderDate = rs.getTimestamp("orderDate");
+                double totalAmount = rs.getDouble("totalAmount");
+                String customerName = rs.getString("customerName");
+                String customerEmail = rs.getString("customerEmail");
+                String customerPhone = rs.getString("customerPhone");
+                String customerAddress = rs.getString("customerAddress");
+                String paymentMethod = rs.getString("paymentMethod");
+                String paymentStatus = rs.getString("paymentStatus");
+                String orderStatus = rs.getString("orderStatus");
+
+                OrderDTO order = new OrderDTO(orderID, userID, orderDate, totalAmount, customerName,
+                        customerEmail, customerPhone, customerAddress,
+                        paymentMethod, paymentStatus, orderStatus);
+
+                // Lấy chi tiết đơn hàng
+                order.setOrderDetails(getOrderDetails(orderID));
+
+                orders.add(order);
+            }
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (stm != null) {
+                stm.close();
+            }
+            if (conn != null) {
+                DBUtils.closeConnection(conn);
+            }
+        }
+        return orders;
+    }
+
+    
 }
