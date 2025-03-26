@@ -108,37 +108,6 @@
             </div>
         </nav>  
                     
-<<<<<<< HEAD
-                    <!-- Banner Slider -->
-                    <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
-                        <div class="carousel-inner">
-                            <!-- Slide 1 -->
-                            <div class="carousel-item active">
-                                <img src="assets/images/BabythreeBanner.jpg" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="Banner 1">
-                            </div>
-                            <!-- Slide 2 -->
-                            <div class="carousel-item">
-                                <img src="assets/images/BabyThreeBanner2.jpg" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="Banner 2">
-                            </div>
-                        </div>
-
-                        <!-- Nút điều hướng -->
-                        <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
-                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Previous</span>
-                        </button>
-                        <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
-                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                            <span class="visually-hidden">Next</span>
-                        </button>
-
-                        <!-- Nếu muốn thêm chỉ số -->
-                        <div class="carousel-indicators">
-                            <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-                            <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-                        </div>
-                    </div>
-=======
         <!-- Banner -->
             <div class="container-fluid p-0 m-0 d-flex justify-content-center">
                 <div class="banner position-relative" style="object-fit: cover; height: 50vh; margin: 0; padding: 0;">
@@ -151,7 +120,6 @@
                 </div>
             </div>
         <!-- Main Content -->
->>>>>>> 269567860d250a23f0248d533c98fe0381152049
         <div class="container mt-4">
             <% if (request.getAttribute("SUCCESS") != null) {%>
             <div class="alert alert-success" role="alert">
