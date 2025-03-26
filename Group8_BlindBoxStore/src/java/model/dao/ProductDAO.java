@@ -12,7 +12,7 @@ import model.utils.DBUtils;
 
 public class ProductDAO {
 
-    public List<ProductDTO> searchProducts(String searchValue, Integer categoryID, int page, int productPerPage)
+    public List<ProductDTO> searchProducts(String searchValue, Integer categoryID, int page, int productPerPage, String priceSort)
             throws SQLException, ClassNotFoundException {
         List<ProductDTO> products = new ArrayList<>();
         Connection conn = null;
@@ -35,8 +35,15 @@ public class ProductDAO {
                 sql += "AND p.categoryID = ? ";
             }
 
-            sql += "ORDER BY p.createDate DESC "
-                    + "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
+            if ("asc".equalsIgnoreCase(priceSort)) {
+                sql += "ORDER BY p.price ASC ";
+            } else if ("desc".equalsIgnoreCase(priceSort)) {
+                sql += "ORDER BY p.price DESC ";
+            } else {
+                sql += "ORDER BY p.createDate DESC ";
+            }
+
+            sql += "OFFSET ? ROWS FETCH NEXT ? ROWS ONLY";
 
             stm = conn.prepareStatement(sql);
 

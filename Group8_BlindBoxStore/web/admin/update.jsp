@@ -52,6 +52,11 @@
                             <li class="nav-item">
                                 <a class="nav-link" href="MainController?btAction=Create&action=view">Add Products</a>
                             </li>
+                            <li class="nav-item">
+                            <a class="nav-link" href="MainController?btAction=ViewRevenue">
+                                <i class="fas fa-chart-bar"></i> View Revenue
+                            </a>
+                        </li>
                         </ul>
                         <ul class="navbar-nav">
                             <li class="nav-item dropdown">
