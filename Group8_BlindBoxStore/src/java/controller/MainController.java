@@ -431,7 +431,6 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
                     for (int i = 0; i < productIDs.length; i++) {
                         int productID = Integer.parseInt(productIDs[i]);
                         int quantity = Integer.parseInt(quantities[i]);
-
                         if (cart.containsKey(productID)) {
                             if (quantity <= 0) {
                                 cart.remove(productID);

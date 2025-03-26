@@ -40,89 +40,70 @@
             }
         %>
             <!-- Navigation Bar -->
-          <nav class="navbar navbar-expand-lg navbar-dark ">
-    <div class="container">
-        <a class="navbar-brand" href="MainController?btAction=Search">BlindBoxStore</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="MainController?btAction=Search">Home</a>
-                </li>
-                <% if (user != null && Constants.ADMIN_ROLE.equals(user.getRole())) { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
-                </li>
-                <% } %>
-                <% if (user != null && !Constants.ADMIN_ROLE.equals(user.getRole())) { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="MainController?btAction=TrackOrder">Track Order</a>
-                </li>
-                <% } %>
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="MainController?btAction=ViewCart">
-                        <i class="fas fa-shopping-cart"></i> Cart
-                    </a>
-                </li>
-                <% if (user == null) { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="MainController?btAction=Login">Login</a>
-                </li>
-                <% } else { %>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Welcome, <%= user.getFullName() %>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="MainController?btAction=User_Page">Profile</a></li>
-                        <li><a class="dropdown-item" href="MainController?btAction=Logout">Logout</a></li>
-                    </ul>
-                </li>
-                <% } %>
-            </ul>
-        </div>
-    </div>
-</nav>
-
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="container">
+                    <a class="navbar-brand" href="MainController?btAction=Search">BlindBoxStore</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
+                            aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="MainController?btAction=Search">Home</a>
+                            </li>
+                            <% if (user != null && Constants.ADMIN_ROLE.equals(user.getRole())) { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
+                            </li>
+                            <% } %>
+                            <% if (user != null) { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="MainController?btAction=TrackOrder">Track Order</a>
+                            </li>
+                            <% } %>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="MainController?btAction=ViewCart">
+                                    <i class="fas fa-shopping-cart"></i> Cart
+                                </a>
+                            </li>
+                            <% if (user == null) { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="MainController?btAction=Login">Login</a>
+                            </li>
+                            <% } else {%>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    Welcome, <%= user.getFullName()%>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="MainController?btAction=User_Page">Profile</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="MainController?btAction=Logout">Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <% } %>
+                        </ul>
+                    </div>
+                </div>
+            </nav>
                     
-       
-       <!-- Banner Slider -->
-       <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
-        <div class="carousel-inner">
-            <!-- Slide 1 -->
-            <div class="carousel-item active">
-                <img src="assets/images/BabythreeBanner.jpg" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="Banner 1">
+        <!-- Banner -->
+            <div class="container-fluid p-0 m-0 d-flex justify-content-center">
+                <div class="banner position-relative" style="object-fit: cover; height: 50vh; margin: 0; padding: 0;">
+                    <img src="assets/images/BabythreeBanner.jpg" alt="Baby Three Banner" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </div>
             </div>
-            <!-- Slide 2 -->
-            <div class="carousel-item">
-                <img src="assets/images/BabyThreeBanner2.jpg" class="d-block w-100" style="height: 50vh; object-fit: cover;" alt="Banner 2">
-            </div>
-        </div>
-
-        <!-- Nút điều hướng -->
-        <button class="carousel-control-prev" type="button" data-bs-target="#bannerCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#bannerCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-
-        <!-- Nếu muốn thêm chỉ số -->
-        <div class="carousel-indicators">
-            <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
-            <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
-        </div>
-    </div>
-
         <!-- Main Content -->
         <div class="container mt-4">
             <% if (request.getAttribute("SUCCESS") != null) {%>
@@ -265,3 +246,4 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
+
