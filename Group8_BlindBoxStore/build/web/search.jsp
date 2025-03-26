@@ -108,6 +108,7 @@
             </div>
         </nav>  
                     
+<<<<<<< HEAD
                     <!-- Banner Slider -->
                     <div id="bannerCarousel" class="carousel slide" data-bs-ride="carousel">
                         <div class="carousel-inner">
@@ -137,6 +138,20 @@
                             <button type="button" data-bs-target="#bannerCarousel" data-bs-slide-to="1" aria-label="Slide 2"></button>
                         </div>
                     </div>
+=======
+        <!-- Banner -->
+            <div class="container-fluid p-0 m-0 d-flex justify-content-center">
+                <div class="banner position-relative" style="object-fit: cover; height: 50vh; margin: 0; padding: 0;">
+                    <img src="assets/images/BabythreeBanner.jpg" alt="Baby Three Banner" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </div>
+            </div>  <!-- Banner -->
+            <div class="container-fluid p-0 m-0 d-flex justify-content-center">
+                <div class="banner position-relative" style="object-fit: cover; height: 50vh; margin: 0; padding: 0;">
+                    <img src="assets/images/BabythreeBanner.jpg" alt="Baby Three Banner" style="width: 100%; height: 100%; object-fit: cover; display: block;">
+                </div>
+            </div>
+        <!-- Main Content -->
+>>>>>>> 269567860d250a23f0248d533c98fe0381152049
         <div class="container mt-4">
             <% if (request.getAttribute("SUCCESS") != null) {%>
             <div class="alert alert-success" role="alert">
