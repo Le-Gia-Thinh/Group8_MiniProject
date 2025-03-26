@@ -434,7 +434,6 @@ public class MainController extends HttpServlet {
                     for (int i = 0; i < productIDs.length; i++) {
                         int productID = Integer.parseInt(productIDs[i]);
                         int quantity = Integer.parseInt(quantities[i]);
-
                         if (cart.containsKey(productID)) {
                             if (quantity <= 0) {
                                 cart.remove(productID);
@@ -506,6 +505,14 @@ public class MainController extends HttpServlet {
             return Constants.LOGIN_PAGE; // hoặc redirect về login
         }
 
+<<<<<<< HEAD
+        if (userID == null) {
+            request.setAttribute("ERROR", "You must log in to place an order");
+            return Constants.LOGIN_PAGE; // hoặc redirect về login
+        }
+   
+=======
+>>>>>>> 269567860d250a23f0248d533c98fe0381152049
         // Get customer information
         String customerName = request.getParameter("customerName");
         String customerEmail = request.getParameter("customerEmail");
