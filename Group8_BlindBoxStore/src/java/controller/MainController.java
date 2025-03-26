@@ -45,9 +45,9 @@ public class MainController extends HttpServlet {
             if (action == null || action.isEmpty()) {
                 url = Constants.SEARCH_PAGE;
             } else if (action.equals(Constants.LOGIN_ACTION)) {
-                 url = processLogin(request, response);
+                url = processLogin(request, response);
             } else if (action.equals(Constants.LOGOUT_ACTION)) {
-                  url = processLogout(request, response);
+                url = processLogout(request, response);
             } else if (USER_PAGE.equals(action)) {
                 url = USER_PAGE_VIEW;
             } else if (REGISTER_PAGE.equals(action)) {
@@ -74,6 +74,8 @@ public class MainController extends HttpServlet {
                 url = processConfirmOrder(request);
             } else if (action.equals(Constants.TRACK_ORDER_ACTION)) {
                 url = processTrackOrder(request);
+            } else if (action.equals(Constants.VIEW_ORDER_DATAIL)) {
+                url = processViewOrderDetail(request);
             } else {
                 request.setAttribute("ERROR", "Action not supported");
                 url = Constants.ERROR_PAGE;
@@ -87,65 +89,66 @@ public class MainController extends HttpServlet {
         }
     }
 
-   private String processLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
-    String url = Constants.LOGIN_PAGE;
-    request.removeAttribute("ERROR");
-    String userID = request.getParameter("userID");
-    String password = request.getParameter("password");
-    if (userID != null && !userID.isEmpty() && password != null && !password.isEmpty()) {
-        UserDAO userDAO = new UserDAO();
-        UserDTO user = userDAO.checkLogin(userID, password);
+    private String processLogin(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String url = Constants.LOGIN_PAGE;
+        request.removeAttribute("ERROR");
+        String userID = request.getParameter("userID");
+        String password = request.getParameter("password");
+        if (userID != null && !userID.isEmpty() && password != null && !password.isEmpty()) {
+            UserDAO userDAO = new UserDAO();
+            UserDTO user = userDAO.checkLogin(userID, password);
 
-        if (user != null) {
-            HttpSession session = request.getSession();
-            session.setAttribute("LOGIN_USER", user);
-            Cookie userCookie = new Cookie("userID", user.getUserID());
-            userCookie.setMaxAge(60 * 60 * 7200); 
-            response.addCookie(userCookie);
+            if (user != null) {
+                HttpSession session = request.getSession();
+                session.setAttribute("LOGIN_USER", user);
+                Cookie userCookie = new Cookie("userID", user.getUserID());
+                userCookie.setMaxAge(60 * 60 * 7200);
+                response.addCookie(userCookie);
 
-            url = Constants.SEARCH_PAGE;
-        } else {
-            request.setAttribute("ERROR", "Invalid UserID or Password");
+                url = Constants.SEARCH_PAGE;
+            } else {
+                request.setAttribute("ERROR", "Invalid UserID or Password");
+            }
         }
+        return url;
     }
-    return url;
-}
-private void checkUserCookie(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, IOException {
-    Cookie[] cookies = request.getCookies();
-    if (cookies != null) {
-        for (Cookie cookie : cookies) {
-            if (cookie.getName().equals("userID")) {
-                String userID = cookie.getValue();
-                try {
-                    UserDAO userDAO = new UserDAO();
-                    UserDTO user = userDAO.getUserByID(userID);  
-                    if (user != null) {
-                        HttpSession session = request.getSession();
-                        session.setAttribute("LOGIN_USER", user);
-                    } else {
-                        response.sendRedirect("login.jsp");
+
+    private void checkUserCookie(HttpServletRequest request, HttpServletResponse response) throws ClassNotFoundException, IOException {
+        Cookie[] cookies = request.getCookies();
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if (cookie.getName().equals("userID")) {
+                    String userID = cookie.getValue();
+                    try {
+                        UserDAO userDAO = new UserDAO();
+                        UserDTO user = userDAO.getUserByID(userID);
+                        if (user != null) {
+                            HttpSession session = request.getSession();
+                            session.setAttribute("LOGIN_USER", user);
+                        } else {
+                            response.sendRedirect("login.jsp");
+                        }
+                    } catch (SQLException e) {
+                        e.printStackTrace();
                     }
-                } catch (SQLException e) {
-                    e.printStackTrace();
+                    break;
                 }
-                break;
             }
         }
     }
-}
-private String processLogout(HttpServletRequest request, HttpServletResponse response) {
-    HttpSession session = request.getSession(false);
-    if (session != null) {
-        session.invalidate();
+
+    private String processLogout(HttpServletRequest request, HttpServletResponse response) {
+        HttpSession session = request.getSession(false);
+        if (session != null) {
+            session.invalidate();
+        }
+
+        Cookie userCookie = new Cookie("userID", "");
+        userCookie.setMaxAge(0);
+        response.addCookie(userCookie);
+
+        return Constants.LOGIN_PAGE;
     }
-
-    Cookie userCookie = new Cookie("userID", "");
-    userCookie.setMaxAge(0);
-    response.addCookie(userCookie);
-
-    return Constants.LOGIN_PAGE;
-}
-
 
     private String processSearch(HttpServletRequest request) throws Exception {
         String searchValue = request.getParameter("searchValue");
@@ -502,7 +505,7 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
             request.setAttribute("ERROR", "You must log in to place an order");
             return Constants.LOGIN_PAGE; // hoặc redirect về login
         }
-   
+
         // Get customer information
         String customerName = request.getParameter("customerName");
         String customerEmail = request.getParameter("customerEmail");
@@ -562,59 +565,71 @@ private String processLogout(HttpServletRequest request, HttpServletResponse res
     }
 
     private String processTrackOrder(HttpServletRequest request) throws Exception {
+        // Lấy thông tin session và user
         HttpSession session = request.getSession(false);
-        if (session == null || session.getAttribute("LOGIN_USER") == null) {
-            request.setAttribute("ERROR", "Please login to track your order");
-            return Constants.LOGIN_PAGE;
-        }
+        UserDTO user = (UserDTO) (session != null ? session.getAttribute("LOGIN_USER") : null);
 
-        String orderIDStr = request.getParameter("orderID");
-        if (orderIDStr != null && !orderIDStr.trim().isEmpty()) {
-            int orderID = Integer.parseInt(orderIDStr);
+        OrderDAO orderDAO = new OrderDAO();
+        List<OrderDTO> orders;
 
-            OrderDAO orderDAO = new OrderDAO();
-            OrderDTO order = orderDAO.getOrderByID(orderID);
-
-            if (order != null) {
-                UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
-
-                // Check if order belongs to user or user is admin
-                if (order.getUserID() != null && order.getUserID().equals(user.getUserID())
-                        || Constants.ADMIN_ROLE.equals(user.getRole())) {
-                    request.setAttribute("ORDER", order);
-                } else {
-                    request.setAttribute("ERROR", "Order not found");
-                }
+        // Kiểm tra nếu user đăng nhập
+        if (user != null) {
+            // Nếu là admin thì hiển thị toàn bộ đơn hàng
+            if (Constants.ADMIN_ROLE.equals(user.getRole())) {
+                orders = orderDAO.getAllOrders();
             } else {
-                request.setAttribute("ERROR", "Order not found");
+                // Nếu là user thông thường thì chỉ hiển thị đơn hàng của user đó
+                orders = orderDAO.getOrdersByUserID(user.getUserID());
             }
+        } else {
+            // Nếu không đăng nhập thì không hiển thị gì
+            orders = new ArrayList<>();
         }
+
+        // Đưa danh sách đơn hàng vào request
+        request.setAttribute("USER_ORDERS", orders);
 
         return Constants.ORDER_TRACKING_PAGE;
     }
 
-   @Override
-protected void doGet(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+    private String processViewOrderDetail(HttpServletRequest request) throws Exception {
+        String orderIDParam = request.getParameter("orderID");
+
+        if (orderIDParam != null && !orderIDParam.trim().isEmpty()) {
+            int orderID = Integer.parseInt(orderIDParam);
+            OrderDAO orderDAO = new OrderDAO();
+            OrderDTO order = orderDAO.getOrderByID(orderID);
+
+            if (order != null) {
+                request.setAttribute("ORDER", order);
+                return "orderDetail.jsp";
+            }
+        }
+        return Constants.ORDER_TRACKING_PAGE;
+    }
+
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         try {
             checkUserCookie(request, response);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-    processRequest(request, response);
-}
+        processRequest(request, response);
+    }
 
-@Override
-protected void doPost(HttpServletRequest request, HttpServletResponse response)
-        throws ServletException, IOException {
+    @Override
+    protected void doPost(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {
         try {
             checkUserCookie(request, response);
         } catch (ClassNotFoundException ex) {
             Logger.getLogger(MainController.class.getName()).log(Level.SEVERE, null, ex);
         }
-    processRequest(request, response);
-}
+        processRequest(request, response);
+    }
 
     @Override
     public String getServletInfo() {

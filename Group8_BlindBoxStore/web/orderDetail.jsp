@@ -28,7 +28,7 @@
                         <li class="nav-item">
                             <a class="nav-link" href="MainController?btAction=Search">Home</a>
                         </li>
-                        <c:if test="${sessionScope.LOGIN_USER != null && sessionScope.LOGIN_USER.role == 'ADMIN'}">
+                        <c:if test="${sessionScope.LOGIN_USER != null && sessionScope.LOGIN_USER.role == 'AD'}">
                             <li class="nav-item">
                                 <a class="nav-link" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
                             </li>
@@ -63,74 +63,71 @@
                 </div>
             </div>
         </nav>
-
-<!-- Main Content -->
-        <div class="container mt-4">
-            <c:if test="${not empty requestScope.ERROR}">
-                <div class="alert alert-danger" role="alert">
-                    <c:out value="${requestScope.ERROR}"/>
-                </div>
-            </c:if>
-
-            <div class="card mb-4">
-                <div class="card-header">
-                    <h4>Track Order</h4>
-                </div>
-                <div class="card-body">
-                    <form action="MainController" method="GET">
-                        <button type="submit" class="btn btn-primary w-100" name="btAction" value="TrackOrder">Xem Đơn Hàng</button>
-                    </form>
-                </div>
-            </div>
-                        
-                        
-            <div class="container mt-4">
+        
+        <!-- Main content -->
+        <c:if test="${not empty requestScope.ORDER}">
                 <div class="card mb-4">
-                    <div class="card-header bg-warning text-dark"">
-                        <h4>Your Orders</h4>
+                    <div class="card-header bg-warning text-dark">
+                        <h4>Order #${requestScope.ORDER.orderID}</h4>
                     </div>
                     <div class="card-body">
-                        <c:choose>
-                            <c:when test="${not empty requestScope.USER_ORDERS}">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Order ID</th>
-                                            <th>Order Date</th>
-                                            <th>Total Amount</th>
-                                            <th>Payment Status</th>
-                                            <th>Action</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <c:forEach var="order" items="${requestScope.USER_ORDERS}">
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <h5>Order Information</h5>
+                                <p><strong>Order ID:</strong> #${requestScope.ORDER.orderID}</p>
+                                <p><strong>Order Date:</strong> <fmt:formatDate value="${requestScope.ORDER.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"/></p>
+                                <p><strong>Payment Method:</strong> <c:out value="${requestScope.ORDER.paymentMethod}"/></p>
+                                <p><strong>Payment Status:</strong>
+                                    <span class="badge ${requestScope.ORDER.paymentStatus == 'COMPLETED' ? 'bg-success' : 'bg-warning'}">
+                                        <c:out value="${requestScope.ORDER.paymentStatus}"/>
+                                    </span>
+                                </p>
+                                <p><strong>Total Amount:</strong> $<fmt:formatNumber value="${requestScope.ORDER.totalAmount}" pattern="#,##0.00"/></p>
+                            </div>
+                            <div class="col-md-6">
+                                <h5>Customer Information</h5>
+                                <p><strong>Name:</strong> <c:out value="${requestScope.ORDER.customerName}"/></p>
+                                <p><strong>Email:</strong> <c:out value="${requestScope.ORDER.customerEmail}"/></p>
+                                <p><strong>Phone:</strong> <c:out value="${requestScope.ORDER.customerPhone}"/></p>
+                                <p><strong>Address:</strong> <c:out value="${requestScope.ORDER.customerAddress}"/></p>
+                            </div>
+                        </div>
+
+                        <h5>Order Details</h5>
+                        <div class="table-responsive">
+                            <table class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>BlindBox</th>
+                                        <th>Price</th>
+                                        <th>Quantity</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <c:if test="${not empty requestScope.ORDER.orderDetails}">
+                                        <c:forEach var="detail" items="${requestScope.ORDER.orderDetails}">
                                             <tr>
-                                                <td>${order.orderID}</td>
-                                                <td><fmt:formatDate value="${order.orderDate}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-                                                <td>$<fmt:formatNumber value="${order.totalAmount}" pattern="#,##0.00"/></td>
-                                                <td>
-                                                    <span class="badge ${order.paymentStatus == 'COMPLETED' ? 'bg-success' : 'bg-warning'}">
-                                                        ${order.paymentStatus}
-                                                    </span>
-                                                </td>
-                                                <td>
-                                                    <a href="MainController?btAction=ViewOrderDetail&orderID=${order.orderID}" class="btn btn-sm btn-info">
-                                                        View Details
-                                                    </a>
-                                                </td>
+                                                <td><c:out value="${detail.productName}"/></td>
+                                                <td>$<fmt:formatNumber value="${detail.price}" pattern="#,##0.00"/></td>
+                                                <td>${detail.quantity}</td>
+                                                <td>$<fmt:formatNumber value="${detail.total}" pattern="#,##0.00"/></td>
                                             </tr>
                                         </c:forEach>
-                                    </tbody>
-                                </table>
-                            </c:when>
-                            <c:otherwise>
-                                <p class="text-center text-muted">No orders found.</p>
-                            </c:otherwise>
-                        </c:choose>
+                                    </c:if>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                                        <td><strong>$<fmt:formatNumber value="${requestScope.ORDER.totalAmount}" pattern="#,##0.00"/></strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </c:if>
+                            
         
         <!-- Footer -->
         <footer class="bg-dark text-white mt-5 py-3">

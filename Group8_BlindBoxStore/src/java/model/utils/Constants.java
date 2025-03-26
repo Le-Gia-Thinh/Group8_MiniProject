@@ -16,6 +16,7 @@ public class Constants {
     public static final String CONFIRM_ORDER_ACTION = "ConfirmOrder";
     public static final String TRACK_ORDER_ACTION = "TrackOrder";
     public static final String REGISTER_ACTION = "Register";
+     public static final String VIEW_ORDER_DATAIL = "ViewOrderDetail";
     // Pages
     public static final String LOGIN_PAGE = "login.jsp";
     public static final String SEARCH_PAGE = "search.jsp";

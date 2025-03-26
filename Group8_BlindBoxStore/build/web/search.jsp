@@ -40,74 +40,63 @@
             }
         %>
             <!-- Navigation Bar -->
-          <nav class="navbar navbar-expand-lg navbar-dark ">
-    <div class="container">
-        <a class="navbar-brand" href="MainController?btAction=Search">BlindBoxStore</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav me-auto">
-                <li class="nav-item">
-                    <a class="nav-link active" href="MainController?btAction=Search">Home</a>
-                </li>
-                <% if (user != null && Constants.ADMIN_ROLE.equals(user.getRole())) { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
-                </li>
-                <% } %>
-                <% if (user != null && !Constants.ADMIN_ROLE.equals(user.getRole())) { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="MainController?btAction=TrackOrder">Track Order</a>
-                </li>
-                <% } %>
-            </ul>
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <a class="nav-link" href="MainController?btAction=ViewCart">
-                        <i class="fas fa-shopping-cart"></i> Cart
-                    </a>
-                </li>
-                <% if (user == null) { %>
-                <li class="nav-item">
-                    <a class="nav-link" href="MainController?btAction=Login">Login</a>
-                </li>
-                <% } else { %>
-                <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                        Welcome, <%= user.getFullName() %>
-                    </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <li><a class="dropdown-item" href="MainController?btAction=User_Page">Profile</a></li>
-                        <li><a class="dropdown-item" href="MainController?btAction=Logout">Logout</a></li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=ViewCart">
-                                <i class="fas fa-shopping-cart"></i> Cart
-                            </a>
-                        </li>
-                        <% if (user == null) { %>
-                        <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=Login">Login</a>
-                        </li>
-                        <% } else { %>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Welcome, <%= user.getFullName() %>
-                            </a>
-                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-                                <li><a class="dropdown-item" href="MainController?btAction=Logout">Logout</a></li>
-                            </ul>
-                        </li>
-                        <% } %>
-                    </ul>
+            <nav class="navbar navbar-expand-lg navbar-dark">
+                <div class="container">
+                    <a class="navbar-brand" href="MainController?btAction=Search">BlindBoxStore</a>
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" 
+                            data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" 
+                            aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navbarNav">
+                        <ul class="navbar-nav me-auto">
+                            <li class="nav-item">
+                                <a class="nav-link active" href="MainController?btAction=Search">Home</a>
+                            </li>
+                            <% if (user != null && Constants.ADMIN_ROLE.equals(user.getRole())) { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
+                            </li>
+                            <% } %>
+                            <% if (user != null) { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="MainController?btAction=TrackOrder">Track Order</a>
+                            </li>
+                            <% } %>
+                        </ul>
+                        <ul class="navbar-nav">
+                            <li class="nav-item">
+                                <a class="nav-link" href="MainController?btAction=ViewCart">
+                                    <i class="fas fa-shopping-cart"></i> Cart
+                                </a>
+                            </li>
+                            <% if (user == null) { %>
+                            <li class="nav-item">
+                                <a class="nav-link" href="MainController?btAction=Login">Login</a>
+                            </li>
+                            <% } else {%>
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" 
+                                   data-bs-toggle="dropdown" aria-expanded="false">
+                                    Welcome, <%= user.getFullName()%>
+                                </a>
+                                <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                    <li>
+                                        <a class="dropdown-item" href="MainController?btAction=User_Page">Profile</a>
+                                    </li>
+                                    <li>
+                                        <a class="dropdown-item" href="MainController?btAction=Logout">Logout</a>
+                                    </li>
+                                </ul>
+                            </li>
+                            <% } %>
+                        </ul>
+                    </div>
                 </div>
-            </div>
-        </nav>  
+            </nav>
                     
         <!-- Banner -->
             <div class="container-fluid p-0 m-0 d-flex justify-content-center">
