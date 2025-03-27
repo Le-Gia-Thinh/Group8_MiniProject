@@ -1,27 +1,30 @@
-<%@page import="java.util.Map"%>
-<%@page import="model.dto.UserDTO"%>
+<%@page import="model.dto.CategoryDTO"%>
+<%@page import="java.util.List"%>
 <%@page import="model.utils.Constants"%>
-<%@page contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@page import="model.dto.UserDTO"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="en">
+<html>
     <head>
-        <meta charset="UTF-8">
-        <title>Revenue Report - Admin</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <title>Add Product - BlindBoxStore</title>
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
         <link href="./css/search.css" rel="stylesheet">
     </head>
     <body>
-        <%-- Kiểm tra quyền admin --%>
-        <% UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
+        <%
+                UserDTO user = (UserDTO) session.getAttribute("LOGIN_USER");
             if (user == null || !Constants.ADMIN_ROLE.equals(user.getRole())) {
                 response.sendRedirect("MainController?btAction=Login");
-                return;
+                        return;
             }
+            
+            List<CategoryDTO> categories = (List<CategoryDTO>) request.getAttribute("CATEGORIES");
         %>
-
+        
         <!-- Navigation Bar -->
-        <nav class="navbar navbar-expand-lg navbar-dark">
+       <nav class="navbar navbar-expand-lg navbar-dark">
             <div class="container">
                 <a class="navbar-brand" href="MainController?btAction=Search">BlindBoxStore</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -32,145 +35,135 @@
                         <li class="nav-item">
                             <a class="nav-link" href="MainController?btAction=Search">Home</a>
                         </li>
+                        <% if (user != null && Constants.ADMIN_ROLE.equals(user.getRole())) { %>
                         <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=Update&action=view">Manage Products</a>
+                            <a class="nav-link" href="MainController?btAction=Update&action=view">Manage BlindBoxs</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="MainController?btAction=Create&action=view">Add Product</a>
+                            <a class="nav-link" href="MainController?btAction=Create&action=view">Add BlindBox</a>
                         </li>
+                        <% } %>
+                        <% if (user != null) { %>
                         <li class="nav-item">
-                            <a class="nav-link active" href="MainController?btAction=TrackOrder">Track Order</a>
+                            <a class="nav-link" href="MainController?btAction=TrackOrder">Track Order</a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link active" href="MainController?btAction=ViewRevenue">
-                                <i class="fas fa-chart-bar"></i> Revenue Report
-                            </a>
-                        </li>
+                        <% } %>
                     </ul>
                     <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link active" href="MainController?btAction=ViewCart">
+                                <i class="fas fa-shopping-cart"></i> Cart
+                            </a>
+                        </li>
+                        <% if (user == null) { %>
+                        <li class="nav-item">
+                            <a class="nav-link" href="MainController?btAction=Login">Login</a>
+                        </li>
+                        <% } else { %>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                Welcome, <%= user.getFullName()%>
+                                Welcome, <%= user.getFullName() %>
                             </a>
                             <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <li><a class="dropdown-item" href="MainController?btAction=Logout">Logout</a></li>
                             </ul>
                         </li>
+                        <% } %>
                     </ul>
                 </div>
             </div>
         </nav>
-
+        
         <!-- Main Content -->
-        <div class="card mb-4">
-            <div class="card-header">
-                <h4>Revenue Report</h4>
+        <div class="container mt-4">
+            <% if (request.getAttribute("SUCCESS") != null) { %>
+            <div class="alert alert-success" role="alert">
+                <%= request.getAttribute("SUCCESS") %>
             </div>
-            <div class="card-body">
-                <div class="row mb-3">
-                    <div class="col-md-4">
-                        <div class="border rounded p-3 bg-light text-center">
-                            <h6>Daily Revenue</h6>
-                            <h4 class="text-primary">
-                                $<%= request.getAttribute("DAILY_REVENUE") != null ? request.getAttribute("DAILY_REVENUE") : "0"%>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="border rounded p-3 bg-light text-center">
-                            <h6>Monthly Revenue</h6>
-                            <h4 class="text-success">
-                                $<%= request.getAttribute("MONTHLY_REVENUE") != null ? request.getAttribute("MONTHLY_REVENUE") : "0"%>
-                            </h4>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="border rounded p-3 bg-light text-center">
-                            <h6>Yearly Revenue</h6>
-                            <h4 class="text-warning">
-                                $<%= request.getAttribute("YEARLY_REVENUE") != null ? request.getAttribute("YEARLY_REVENUE") : "0"%>
-                            </h4>
-                        </div>
-                    </div>
+            <% } %>
+            <% if (request.getAttribute("ERROR") != null) { %>
+            <div class="alert alert-danger" role="alert">
+                <%= request.getAttribute("ERROR") %>
+            </div>
+            <% } %>
+            
+            <!-- Create Product Form -->
+            <div class="card mb-4">
+                <div class="card-header">
+                    <h4>Add New Product</h4>
                 </div>
-
-                <form action="MainController" method="GET" class="mb-3">
-                    <input type="hidden" name="btAction" value="ViewRevenue">
-                    <div class="row">
-                        <div class="col-md-6">
-                            <label for="selectedDate" class="form-label">Select Date</label>
-                            <input type="date" id="selectedDate" name="selectedDate" class="form-control" required 
-                                   value="<%= request.getAttribute("SELECTED_DATE") != null ? request.getAttribute("SELECTED_DATE") : ""%>">
+                <div class="card-body">
+                    <form action="MainController" method="POST" enctype="multipart/form-data">
+                        <div class="row mb-3">
+                            <div class="col-md-6">
+                                <label for="productName" class="form-label">ProductName</label>
+                                <input type="text" class="form-control" id="title" name="productName" required>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="series" class="form-label">Series</label>
+                                <input type="text" class="form-control" id="author" name="series" required>
+                            </div>
                         </div>
-                        <div class="col-md-6 d-flex align-items-end">
-                            <button type="submit" class="btn btn-primary">View Revenue</button>
+                        
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label for="price" class="form-label">Price</label>
+                                <input type="number" class="form-control" id="price" name="price" step="0.01" min="0" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="quantity" class="form-label">Quantity</label>
+                                <input type="number" class="form-control" id="quantity" name="quantity" min="0" required>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="categoryID" class="form-label">Category</label>
+                                <select class="form-select" id="categoryID" name="categoryID" required>
+                                    <% if (categories != null) {
+                                        for (CategoryDTO category : categories) { %>
+                                    <option value="<%= category.getCategoryID() %>">
+                                        <%= category.getCategoryName() %>
+                                    </option>
+                                    <% }
+                                    } %>
+                                </select>
+                            </div>
                         </div>
-                    </div>
-                </form>
-
-                <div class="mt-4">
-                    <h5>Revenue in the Last 7 Days</h5>
-                    <canvas id="revenueChart"></canvas>
+                        
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3" required></textarea>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="imageFile" class="form-label">Image</label>
+                            <input type="file" class="form-control" id="imageFile" name="imageFile" accept="image/*">
+                            <div class="form-text">If no image is selected, a default image will be used.</div>
+                        </div>
+                                
+                        <div class="mb-3">
+                            <label for="status" class="form-label">Status</label>
+                            <select class="form-select" id="status" name="status" required>
+                            <option value="1">Active</option>
+                            <option value="0">Inactive</option>
+                            </select>
+                        </div>
+                        
+                        <div class="d-flex justify-content-between">
+                            <a href="MainController?btAction=Update&action=view" class="btn btn-secondary">Cancel</a>
+                            <button type="submit" class="btn btn-primary" name="btAction" value="Create">Create Product</button>
+                            <input type="hidden" name="action" value="create">
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function () {
-                const selectedDate = document.getElementById("selectedDate").value || new Date().toISOString().split('T')[0];
-
-                fetch(`MainController?btAction=ViewRevenue&selectedDate=${selectedDate}&json=true`)
-                        .then(response => {
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! status: ${response.status}`);
-                            }
-                            return response.json();
-                        })
-                        .then(data => {
-                            // Detailed logging for debugging
-                            console.log("Full response data:", data);
-
-                            // Update revenue values safely
-                            document.getElementById("dayRevenue").textContent =
-                                    data.dayRevenue ? data.dayRevenue.toFixed(2) : '0.00';
-                            document.getElementById("monthRevenue").textContent =
-                                    data.monthRevenue ? data.monthRevenue.toFixed(2) : '0.00';
-                            document.getElementById("yearRevenue").textContent =
-                                    data.yearRevenue ? data.yearRevenue.toFixed(2) : '0.00';
-
-                            // Chart rendering
-                            if (data.last7Days && data.last7Days.length > 0) {
-                                const ctx = document.getElementById("revenueChart").getContext("2d");
-                                new Chart(ctx, {
-                                    type: "bar",
-                                    data: {
-                                        labels: data.last7Days.map(d => d.date),
-                                        datasets: [{
-                                                label: "Revenue ($)",
-                                                data: data.last7Days.map(d => d.revenue),
-                                                backgroundColor: "rgba(54, 162, 235, 0.5)",
-                                                borderColor: "rgba(54, 162, 235, 1)",
-                                                borderWidth: 1
-                                            }]
-                                    },
-                                    options: {
-                                        responsive: true,
-                                        scales: {
-                                            y: {beginAtZero: true}
-                                        }
-                                    }
-                                });
-                            } else {
-                                console.warn("No data available for the last 7 days.");
-                            }
-                        })
-                        .catch(error => {
-                            console.error("Fetch Error:", error);
-                            // Optional: display user-friendly error message
-                        });
-            });
-        </script>
-
+        
+        <!-- Footer -->
+        <footer class="bg-dark text-white mt-5 py-3">
+            <div class="container text-center">
+                <p>&copy; 2025 BlindBoxStore. All rights reserved.</p>
+            </div>
+        </footer>
+        
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     </body>
 </html>
