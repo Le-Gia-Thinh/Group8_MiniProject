@@ -1,0 +1,163 @@
+20-May-2024 15:56:42.989 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/8.5.100
+20-May-2024 15:56:42.991 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Mar 19 2024 13:54:42 UTC
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 8.5.100.0
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 10
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk1.8.0_202\jre
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           1.8.0_202-b08
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\conf\logging.properties
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dhttp.nonProxyHosts=localhost|127.0.0.1|LAPTOP-4SH81D1E
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\temp
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true], UDS [{4}].
+20-May-2024 15:56:42.992 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+20-May-2024 15:56:42.997 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+20-May-2024 15:56:43.082 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+20-May-2024 15:56:43.095 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 318 ms
+20-May-2024 15:56:43.118 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+20-May-2024 15:56:43.118 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/8.5.100]
+20-May-2024 15:56:43.125 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\docs]
+20-May-2024 15:56:43.398 WARNING [localhost-startStop-1] org.apache.catalina.util.SessionIdGeneratorBase.createSecureRandom Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [144] milliseconds.
+20-May-2024 15:56:43.412 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\docs] has finished in [285] ms
+20-May-2024 15:56:43.412 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\examples]
+20-May-2024 15:56:43.632 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\examples] has finished in [220] ms
+20-May-2024 15:56:43.632 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\host-manager]
+20-May-2024 15:56:43.651 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\host-manager] has finished in [19] ms
+20-May-2024 15:56:43.651 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\manager]
+20-May-2024 15:56:43.666 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\manager] has finished in [15] ms
+20-May-2024 15:56:43.666 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\ROOT]
+20-May-2024 15:56:43.682 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\ROOT] has finished in [16] ms
+20-May-2024 15:56:43.684 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+20-May-2024 15:56:43.721 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 624 ms
+20-May-2024 15:58:54.241 INFO [main] org.apache.catalina.core.StandardServer.await A valid shutdown command was received via the shutdown port. Stopping the Server instance.
+20-May-2024 15:58:54.241 INFO [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+20-May-2024 15:58:54.341 INFO [main] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
+20-May-2024 15:58:54.360 INFO [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+20-May-2024 15:58:54.371 INFO [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
+20-May-2024 16:03:27.457 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/8.5.100
+20-May-2024 16:03:27.459 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Mar 19 2024 13:54:42 UTC
+20-May-2024 16:03:27.460 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 8.5.100.0
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 10
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk1.8.0_202\jre
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           1.8.0_202-b08
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\conf\logging.properties
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dhttp.nonProxyHosts=localhost|127.0.0.1|LAPTOP-4SH81D1E
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100
+20-May-2024 16:03:27.461 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100
+20-May-2024 16:03:27.462 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\temp
+20-May-2024 16:03:27.462 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+20-May-2024 16:03:27.462 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true], UDS [{4}].
+20-May-2024 16:03:27.462 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+20-May-2024 16:03:27.466 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+20-May-2024 16:03:27.540 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+20-May-2024 16:03:27.556 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 358 ms
+20-May-2024 16:03:27.580 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+20-May-2024 16:03:27.580 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/8.5.100]
+20-May-2024 16:03:27.588 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\docs]
+20-May-2024 16:03:27.829 WARNING [localhost-startStop-1] org.apache.catalina.util.SessionIdGeneratorBase.createSecureRandom Creation of SecureRandom instance for session ID generation using [SHA1PRNG] took [108] milliseconds.
+20-May-2024 16:03:27.844 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\docs] has finished in [256] ms
+20-May-2024 16:03:27.844 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\examples]
+20-May-2024 16:03:28.076 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\examples] has finished in [232] ms
+20-May-2024 16:03:28.076 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\host-manager]
+20-May-2024 16:03:28.092 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\host-manager] has finished in [16] ms
+20-May-2024 16:03:28.092 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\manager]
+20-May-2024 16:03:28.146 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\manager] has finished in [54] ms
+20-May-2024 16:03:28.146 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\ROOT]
+20-May-2024 16:03:28.157 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\ROOT] has finished in [11] ms
+20-May-2024 16:03:28.158 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+20-May-2024 16:03:28.166 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 609 ms
+20-May-2024 16:10:45.125 INFO [main] org.apache.catalina.core.StandardServer.await A valid shutdown command was received via the shutdown port. Stopping the Server instance.
+20-May-2024 16:10:45.125 INFO [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+20-May-2024 16:10:45.221 INFO [main] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
+20-May-2024 16:10:45.236 INFO [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+20-May-2024 16:10:45.252 INFO [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
+20-May-2024 16:19:11.784 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version name:   Apache Tomcat/8.5.100
+20-May-2024 16:19:11.786 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server built:          Mar 19 2024 13:54:42 UTC
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Server version number: 8.5.100.0
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Name:               Windows 10
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log OS Version:            10.0
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Architecture:          amd64
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Java Home:             C:\Program Files\Java\jdk1.8.0_202\jre
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Version:           1.8.0_202-b08
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log JVM Vendor:            Oracle Corporation
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_BASE:         C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log CATALINA_HOME:         C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.config.file=C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\conf\logging.properties
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.util.logging.manager=org.apache.juli.ClassLoaderLogManager
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dhttp.nonProxyHosts=localhost|127.0.0.1|LAPTOP-4SH81D1E
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djdk.tls.ephemeralDHKeySize=2048
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.protocol.handler.pkgs=org.apache.catalina.webresources
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dignore.endorsed.dirs=
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.base=C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Dcatalina.home=C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.startup.VersionLoggerListener.log Command line argument: -Djava.io.tmpdir=C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\temp
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent Loaded Apache Tomcat Native library [1.2.39] using APR version [1.7.4].
+20-May-2024 16:19:11.787 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR capabilities: IPv6 [true], sendfile [true], accept filters [false], random [true], UDS [{4}].
+20-May-2024 16:19:11.788 INFO [main] org.apache.catalina.core.AprLifecycleListener.lifecycleEvent APR/OpenSSL configuration: useAprConnector [false], useOpenSSL [true]
+20-May-2024 16:19:11.791 INFO [main] org.apache.catalina.core.AprLifecycleListener.initializeSSL OpenSSL successfully initialized [OpenSSL 3.0.11 19 Sep 2023]
+20-May-2024 16:19:11.860 INFO [main] org.apache.coyote.AbstractProtocol.init Initializing ProtocolHandler ["http-nio-8080"]
+20-May-2024 16:19:11.869 INFO [main] org.apache.catalina.startup.Catalina.load Initialization processed in 293 ms
+20-May-2024 16:19:11.888 INFO [main] org.apache.catalina.core.StandardService.startInternal Starting service [Catalina]
+20-May-2024 16:19:11.888 INFO [main] org.apache.catalina.core.StandardEngine.startInternal Starting Servlet engine: [Apache Tomcat/8.5.100]
+20-May-2024 16:19:11.894 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\docs]
+20-May-2024 16:19:12.124 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\docs] has finished in [229] ms
+20-May-2024 16:19:12.124 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\examples]
+20-May-2024 16:19:12.348 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\examples] has finished in [224] ms
+20-May-2024 16:19:12.348 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\host-manager]
+20-May-2024 16:19:12.361 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\host-manager] has finished in [13] ms
+20-May-2024 16:19:12.361 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\manager]
+20-May-2024 16:19:12.409 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\manager] has finished in [48] ms
+20-May-2024 16:19:12.409 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deploying web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\ROOT]
+20-May-2024 16:19:12.420 INFO [localhost-startStop-1] org.apache.catalina.startup.HostConfig.deployDirectory Deployment of web application directory [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\webapps\ROOT] has finished in [11] ms
+20-May-2024 16:19:12.421 INFO [main] org.apache.coyote.AbstractProtocol.start Starting ProtocolHandler ["http-nio-8080"]
+20-May-2024 16:19:12.430 INFO [main] org.apache.catalina.startup.Catalina.start Server startup in 560 ms
+20-May-2024 16:19:18.616 INFO [http-nio-8080-exec-5] org.apache.catalina.startup.HostConfig.deployDescriptor Deploying deployment descriptor [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\conf\Catalina\localhost\PRJ301_Login.xml]
+20-May-2024 16:19:18.617 WARNING [http-nio-8080-exec-5] org.apache.catalina.startup.HostConfig.deployDescriptor The path attribute with value [/PRJ301_Login] in deployment descriptor [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\conf\Catalina\localhost\PRJ301_Login.xml] has been ignored
+20-May-2024 16:19:18.723 INFO [http-nio-8080-exec-5] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+20-May-2024 16:19:18.726 INFO [http-nio-8080-exec-5] org.apache.catalina.startup.HostConfig.deployDescriptor Deployment of deployment descriptor [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\conf\Catalina\localhost\PRJ301_Login.xml] has finished in [109] ms
+20-May-2024 16:19:18.728 INFO [http-nio-8080-exec-10] org.apache.catalina.util.LifecycleBase.start The start() method was called on component [StandardEngine[Catalina].StandardHost[localhost].StandardContext[/PRJ301_Login]] after start() had already been called. The second call will be ignored.
+20-May-2024 16:23:07.452 INFO [http-nio-8080-exec-8] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/PRJ301_Login] has started
+20-May-2024 16:23:07.454 WARNING [http-nio-8080-exec-8] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [PRJ301_Login] registered the JDBC driver [com.microsoft.sqlserver.jdbc.SQLServerDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+20-May-2024 16:23:07.539 INFO [http-nio-8080-exec-8] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+20-May-2024 16:23:07.541 INFO [http-nio-8080-exec-8] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/PRJ301_Login] is completed
+20-May-2024 16:24:22.971 INFO [http-nio-8080-exec-13] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/PRJ301_Login] has started
+20-May-2024 16:24:23.067 INFO [http-nio-8080-exec-13] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+20-May-2024 16:24:23.068 INFO [http-nio-8080-exec-13] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/PRJ301_Login] is completed
+20-May-2024 16:24:24.545 INFO [http-nio-8080-exec-7] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/PRJ301_Login] has started
+20-May-2024 16:24:24.618 INFO [http-nio-8080-exec-7] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+20-May-2024 16:24:24.619 INFO [http-nio-8080-exec-7] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/PRJ301_Login] is completed
+20-May-2024 16:24:39.282 INFO [http-nio-8080-exec-11] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/PRJ301_Login] has started
+20-May-2024 16:24:39.336 INFO [http-nio-8080-exec-11] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+20-May-2024 16:24:39.337 INFO [http-nio-8080-exec-11] org.apache.catalina.core.StandardContext.reload Reloading Context with name [/PRJ301_Login] is completed
+20-May-2024 16:24:47.862 WARNING [http-nio-8080-exec-14] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [PRJ301_Login] registered the JDBC driver [com.microsoft.sqlserver.jdbc.SQLServerDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+20-May-2024 16:24:48.365 INFO [http-nio-8080-exec-14] org.apache.catalina.startup.HostConfig.undeploy Undeploying context [/PRJ301_Login]
+20-May-2024 16:24:54.624 INFO [http-nio-8080-exec-4] org.apache.catalina.startup.HostConfig.deployDescriptor Deploying deployment descriptor [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\conf\Catalina\localhost\PRJ301_Login.xml]
+20-May-2024 16:24:54.625 WARNING [http-nio-8080-exec-4] org.apache.catalina.startup.HostConfig.deployDescriptor The path attribute with value [/PRJ301_Login] in deployment descriptor [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\conf\Catalina\localhost\PRJ301_Login.xml] has been ignored
+20-May-2024 16:24:54.696 INFO [http-nio-8080-exec-4] org.apache.jasper.servlet.TldScanner.scanJars At least one JAR was scanned for TLDs yet contained no TLDs. Enable debug logging for this logger for a complete list of JARs that were scanned but no TLDs were found in them. Skipping unneeded JARs during scanning can improve startup time and JSP compilation time.
+20-May-2024 16:24:54.698 INFO [http-nio-8080-exec-4] org.apache.catalina.startup.HostConfig.deployDescriptor Deployment of deployment descriptor [C:\Users\LENOVO\Downloads\apache-tomcat-8.5.100-windows-x64\apache-tomcat-8.5.100\conf\Catalina\localhost\PRJ301_Login.xml] has finished in [74] ms
+20-May-2024 16:24:54.700 INFO [http-nio-8080-exec-11] org.apache.catalina.util.LifecycleBase.start The start() method was called on component [StandardEngine[Catalina].StandardHost[localhost].StandardContext[/PRJ301_Login]] after start() had already been called. The second call will be ignored.
+20-May-2024 16:25:01.329 INFO [main] org.apache.catalina.core.StandardServer.await A valid shutdown command was received via the shutdown port. Stopping the Server instance.
+20-May-2024 16:25:01.331 INFO [main] org.apache.coyote.AbstractProtocol.pause Pausing ProtocolHandler ["http-nio-8080"]
+20-May-2024 16:25:01.467 INFO [main] org.apache.catalina.core.StandardService.stopInternal Stopping service [Catalina]
+20-May-2024 16:25:01.478 WARNING [localhost-startStop-2] org.apache.catalina.loader.WebappClassLoaderBase.clearReferencesJdbc The web application [PRJ301_Login] registered the JDBC driver [com.microsoft.sqlserver.jdbc.SQLServerDriver] but failed to unregister it when the web application was stopped. To prevent a memory leak, the JDBC Driver has been forcibly unregistered.
+20-May-2024 16:25:01.483 INFO [main] org.apache.coyote.AbstractProtocol.stop Stopping ProtocolHandler ["http-nio-8080"]
+20-May-2024 16:25:01.503 INFO [main] org.apache.coyote.AbstractProtocol.destroy Destroying ProtocolHandler ["http-nio-8080"]
